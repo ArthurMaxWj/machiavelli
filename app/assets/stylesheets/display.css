@@ -1,0 +1,30 @@
+body {
+	background-color: beige;
+	font-size: 1.5em;
+}
+
+#display .card:hover {
+	cursor: pointer;
+}
+
+#display .card.card--selected {
+	color: deepskyblue;
+}
+
+
+
+#display .spot {
+	color: darkgray;
+}
+
+
+#display .spot:hover {
+	color: lightgray;
+	cursor: pointer;
+}
+
+
+#display .spot.spot--selected {
+	color: green;
+}
+

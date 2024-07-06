@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "turbomain" do %>
+<% if @give_up %>
+	Player <i><%= @player %></i> gave up!<br/>
+	<br/>
+	Skips: <br/><br/>
+		<% @player_skips.each_pair do |p, num| %>
+        <i><%= p %>:</i> <%= num %><br/>
+		<% end %>
+<% else %>
+	Player <%= @winner %> won the game!
+<% end %>
+
+<form action="/restart" style="display: inline">
+  <input type="submit"  value="Play again" />
+</form>
+<% end %>

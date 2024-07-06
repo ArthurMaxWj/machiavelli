@@ -1,0 +1,141 @@
+<%= turbo_frame_tag "turbomain" do %>
+<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected"id="display">
+	<h3> Move of player: <%= @player %>
+	<div  id="table">
+		<% @table.each_with_index do |comb, comb_idx| %>
+			<div class="comb">
+				<% comb.each_with_index do |card, card_idx| %>
+					<span 
+					data-display-target="spot"
+					data-action="click->display#selectSpot" 
+					data-display-combno-param="<%= comb_idx %>"
+					data-display-spotno-param="<%= card_idx %>"
+					data-combno="<%= comb_idx %>"
+					data-spotno="<%= card_idx %>"
+					class="spot"
+					>
+						&bull;
+					</span>
+				
+					<span 
+					data-display-target="tcard"
+					data-action="click->display#selectTableCard" 
+					data-display-combno-param="<%= comb_idx %>"
+					data-display-cardno-param="<%= card_idx %>"
+					data-combno="<%= comb_idx %>"
+					data-cardno="<%= card_idx %>"
+					data-rep="<%= card %>"
+					class="card"
+					>
+						<%= card[..-2] %><b><%= card[-1] %></b>
+					</span>
+				<% end %>
+				
+				
+				<!-- we add one after all cards -->
+				<span 
+					data-display-target="spot"
+					data-action="click->display#selectSpot" 
+					data-display-combno-param="<%= comb_idx %>"
+					data-display-spotno-param="<%= comb.size %>"
+					data-combno="<%= comb_idx %>"
+					data-spotno="<%= comb.size %>"
+					class="spot"
+					>
+						&bull;
+				</span>
+				
+			</div>
+		<% end %>
+		
+	</div>
+	<div></div><br/>
+	
+	<div id="deck">
+		<% @deck.each_with_index do |card, card_idx| %>
+				<span 
+					data-display-target="dcard"
+					data-action="click->display#selectDeckCard" 
+					data-display-cardno-param="<%= card_idx %>"
+					data-cardno="<%= card_idx %>"
+					data-rep="<%= card %>"
+					class="card"
+					>
+						<%= card[..-2] %><b><%= card[-1] %></b>
+					</span>
+		<% end %>
+	</div>
+	
+	<div class="counter">
+		Table cards: <span data-display-target="tcounter">0</span>
+		Table spots: <span data-display-target="scounter">0</span>
+		Deck cards: <span data-display-target="dcounter">0</span>
+		<button data-action="display#clearAll">Clear all</button
+	</div
+	<br/>
+	<div>
+		<span> Detected command: <b><span data-display-target="detected">?</span></span>
+	</div>
+	<br/>
+	<div>
+		Commands: 
+		<% @commands.each do |comm| %>
+			<form action="/try-move" style="display: inline">
+			<input name="cmdname" type="hidden" value="<%= comm %>"/>
+			<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
+			<input type="submit" data-display-target="submit" value="<%= comm %>" />
+			</form>
+		<% end %><br />
+			<form action="/execute" style="display: inline">
+				<input type="submit"  value="EXECUTE!" />
+			</form>
+		<br /><br />
+		or: 
+			<% if @cards_left %>
+				<form action="/draw-card" style="display: inline">
+				<input type="submit"  value="draw" />
+				</form>
+			<% else %>
+				<form action="/skip" style="display: inline">
+				<input type="submit"  value="skip" />
+				</form> (note: no cards will be drawn since there are none left, but this can decrease your score at the end of game)
+				
+				<form action="/give-up" style="display: inline">
+				<input type="submit"  value="GIVE UP!" style="display: block; color: red; margin: 10px 0" />
+				</form>
+			<% end %>
+			
+		
+		<br/><br/>
+		
+		Current move prompt: 
+		<form action="/edit-prompt" style="display: inline">
+			<input name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />
+			<input type="submit" value="Edit" />
+		</form>
+		<br/>
+		<form action="/clear-try-move" style="display: inline">
+			<input type="submit" value="Clear" />
+		</form>
+		
+		<form action="/back-try-move" style="display: inline">
+			<input type="submit" value="Back" />
+		</form>
+	</div>
+	<br/>
+	<div style="color: gray" ><%= flash[:helper] %></div>
+	<br/> <br/> <br/>
+	<div style="color: red"> <%= flash[:error].present? ? "Error: #{flash[:error]}" : "" %></div>
+	<div style="color: purple"> <%= flash[:warning].present? ? "Warning: #{flash[:warning]}" : "" %></div>
+	<div style="color: yelllow" data-display-target="requirementserror"></div>
+	<div style="color: maroon" ><%= flash[:cheated] %></div>
+	
+	<% if @helper_out.present? %>
+		<div>Helpful info: <%= @helper_out %></div>
+	<% end %>
+	
+	<% if @who_cheated.present? %>
+		<div>User cheated: <%= @who_cheated %></div>
+	<% end %>
+</div>
+<% end %>
