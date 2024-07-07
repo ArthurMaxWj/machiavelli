@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 # spec/all_transformations_spec.rb
-require_relative '..\..\app\gamelogic\maciavelligame'
+require './app/gamelogic/machiavelliboard'
 
+BRE = false
+BN = []
 
 # describes all subclasses of Transformation
 describe 'all transformations' do
   describe ControlCommandsTransformation do
-    let(:board) { MachiavelliBoard.new(console) }
+    let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { ControlCommandsTransformation.new }
 
     context 'when wrong command given' do
@@ -144,7 +146,7 @@ describe 'all transformations' do
   end
 
   describe HelperCommandsTransformation do
-    let(:board) { MachiavelliBoard.new(console) }
+    let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { HelperCommandsTransformation.new }
 
 
@@ -196,7 +198,7 @@ describe 'all transformations' do
   end
 
   describe CheatCommandsTransformation do
-    let(:board) { MachiavelliBoard.new(console) }
+    let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { CheatCommandsTransformation.new }
 
     context 'correct %cget/%cheat.get command given' do
@@ -343,7 +345,7 @@ describe 'all transformations' do
 
 
   describe MoveValidationTransformation do
-    let(:board) { MachiavelliBoard.new(console) }
+    let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { MoveValidationTransformation.new }
 
     before do
@@ -377,13 +379,13 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors.empty?).to be true
+        expect(errors).to be_eql([nil])
       end
     end
 
     context 'NOT correctly used p/put_card command' do
       let(:cmdd) do
-        'p0-3:0-4'
+        'p.-3:0-4'
       end
 
       context 'when no card in deck' do
@@ -414,15 +416,21 @@ describe 'all transformations' do
         before do
           s = board.data.player_decks[board.data.player].size
           board.data.player_decks[board.data.player][s - 1] = Card.of(diamond: 9)
+          board.data.player_decks[:first_player][3] = Card.of(diamond: 9)
         end
 
         it 'report proper error' do
-          old = board.data.deep_duplicate
-          modify(transf, old, cmdd) => {handled:, success:, errors:}
-
+          BN.push('hi')
+          oldd = board.data.deep_duplicate
+          modify(transf, oldd, cmdd) => {handled:, success:, errors:}
+          # puts '>>>>>>>>>>>>>>>>>>>>>>>>>'
+          # BRE = true
+          #  binding break
           expect(handled).to be true
           expect(success).to be false
           expect(errors.first).to be_eql('Neither iteration nor gradation')
+          # BRE = false
+          # puts '--------------------------------------------'
         end
       end
     end
@@ -458,7 +466,7 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors.empty?).to be true
+        expect(errors).to be_eql([nil])
       end
     end
 
@@ -544,13 +552,13 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors.empty?).to be true
+        expect(errors).to be_eql([nil])
       end
     end
 
 
-    context 'correctly used s/split_combination command' do
-      let(:cmdd) { 's_:1-2' }
+    context 'correctly used b/break_combination command' do
+      let(:cmdd) { 'b_:1-2' }
       before do
         comb_strs = [%w[2s 3s 4s], %w[2h 3h 4h 5h 6h 7h]]
         board.data.table = comb_strs.map do |comb|
@@ -577,13 +585,12 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors.empty?).to be true
+        expect(errors).to be_eql([nil])
       end
     end
 
 
-    context 'NOT correctly used s/split_combination command' do
-      let(:cmdd) { 'm0-3:1-3' }
+    context 'NOT correctly used b/split_combination command' do
       before do
         board.data.player_decks[board.data.player] = %w[2d 3d 4d].map do |c|
           Card.in(c)
@@ -595,8 +602,10 @@ describe 'all transformations' do
                             end]
       end
 
+    
+
       context 'when no card in combination' do
-        let(:cmdd) { 's_:1-15' }
+        let(:cmdd) { 'b_:1-15' }
         it 'report proper error' do
           old = board.data.deep_duplicate
           modify(transf, old, cmdd) => {handled:, success:, errors:}
@@ -608,6 +617,7 @@ describe 'all transformations' do
       end
 
       context 'when no such combination' do
+        let(:cmdd) { 'b_:15-3' }
         before { board.data.table = [] }
         it 'report proper error' do
           old = board.data.deep_duplicate
@@ -615,31 +625,34 @@ describe 'all transformations' do
 
           expect(handled).to be true
           expect(success).to be false
-          expect(errors.first).to be_eql('No such card in combination 0-3')
+          expect(errors.first).to be_eql('No such spot: 15-3')
         end
       end
 
       context 'when combination wont be valid' do
+        let(:cmdd) { 'b_:0-3' }
+
         before do
           board.data.table[0] -= [Card.of(hearth: 6)] # not this valid card
           board.data.table[0] += [Card.of(spade: 6)] # but this invalid one
         end
 
         it 'report proper error' do
+          # binding.break
           old = board.data.deep_duplicate
           modify(transf, old, cmdd) => {handled:, success:, errors:}
 
           expect(handled).to be true
           expect(success).to be false
-          expect(errors.first).to be_eql('No such spot: 1-3')
+          expect(errors.first).to be_eql('Too small combination: minimum 3 cards')
         end
       end
     end
   end
 end
 
-def modify(transformation, data, args)
-  transformation.process(data.deep_duplicate, [args], console)
+def modify(transformation, dat, args)
+  transformation.process(dat.deep_duplicate, [args], console)
 end
 
 def mod(transformation, data, args)

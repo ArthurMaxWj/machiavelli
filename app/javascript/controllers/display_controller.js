@@ -233,7 +233,7 @@ export default class extends Controller {
 			{t: 0, s: 0, d: 3, identifier: "n"},
 			{t: 1, s: 1, d: 0, identifier: "m"},
 			{t: 0, s: 1, d: 1, identifier: "p"},
-			{t: 0, s: 1, d: 0, identifier: "s"}
+			{t: 0, s: 1, d: 0, identifier: "b"}
 		]
 	}
 	

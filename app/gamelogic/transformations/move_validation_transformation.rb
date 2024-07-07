@@ -2,7 +2,6 @@
 
 require_relative '.\transformation'
 require_relative '..\move'
-# require 'byebug'
 
 # adds control commands to MAchiavelliBoard
 class MoveValidationTransformation < Transformation
@@ -20,13 +19,6 @@ class MoveValidationTransformation < Transformation
 
     cmdstr, @try_mode = args
     @try_mode_err_covered = false
-
-    # unless true #cmdstr == "n.-0,.-1,.-2:_"
-    # @bye = true
-    # byebug
-    # else
-    # @bye = false
-    # end
 
     handle_move_validation(cmdstr)
   end
@@ -52,6 +44,8 @@ class MoveValidationTransformation < Transformation
     end
 
     @handled = true
+    #     binding.break if move_str == 'p.-3:0-4' && BN == ['hi']
+
 
     @success = work_with_move(move_str)
   end
@@ -60,46 +54,26 @@ class MoveValidationTransformation < Transformation
     deck = hdata.player_decks[hdata.player]
     Move.from(move_str, hdata.table, deck) => {ok:, value:}
     return e("Incorrect action: '#{value}'") unless ok
+    # binding.break if move_str == 'p.-3:0-4' && BN == ['hi']
 
     exec_move(value) => {success:, resultant_data:}
+    return false unless success
 
     check_table(resultant_data[:table]) => {ok:, error:}
     @try_mode_err_covered = !ok
     e(error) # unless @try_mode
 
     save_hdata(resultant_data) if success && (ok || @try_mode)
-    success
+    success && ok
   end
 
   def exec_move(value)
     check_move_effects(value) => { error:, success:, table:, rdat:}
-    # return e(error) unless success
 
-    # s = success ? check_table(table) : e(error)
-    s = if success
-          # @try_mode_err_covered = !check_table(table)
-
-          true
-        else
-          e(error)
-        end
+    s = success ? true : e(error)
 
     { success: s, resultant_data: rdat }
   end
-
-  # takes block and backups data, if block returns true does nothing,
-  # else performs checks and uses backup data if needed
-  # def safe_move
-  # hdata.deep_duplicate
-  # hdata.table.reduce([]) { |a, b| a + b.dup }
-  # hdata.player_decks.map(&:dup).to_h
-
-  # successful = yield
-
-  # return false unless successful
-
-  # true
-  # end
 
   def check_all_correct(table)
     table.map { |cards| Combination.new(cards) }.each do |comb|
@@ -119,14 +93,11 @@ class MoveValidationTransformation < Transformation
           affected_cards:, affecting_action:,
           actions:
         }
-
     { error:, success:, table:, rdat: }
   end
 
   # move was succesful, now check if combinations are valid
   def check_table(table)
-    # hdata.move_status = check_all_correct(table)
-    # hdata.move_status => {ok:, error:}
     check_all_correct(table)
   end
 

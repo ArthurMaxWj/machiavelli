@@ -81,7 +81,6 @@ class GameController < ApplicationController
 
   def ready_front
     @player = @board.data.player
-    @commands = %w[n m p s] # used to generate avaliabe commands
     @cards_left = @board.data.drawboard.cards.present? # used for draw/skip and give up buttons
 
     @table = front_table

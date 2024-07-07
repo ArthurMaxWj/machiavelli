@@ -70,8 +70,8 @@
 		Table cards: <span data-display-target="tcounter">0</span>
 		Table spots: <span data-display-target="scounter">0</span>
 		Deck cards: <span data-display-target="dcounter">0</span>
-		<button data-action="display#clearAll">Clear all</button
-	</div
+		<button data-action="display#clearAll">Clear all</button>
+	</div>
 	<br/>
 	<div>
 		<span> Detected command: <b><span data-display-target="detected">?</span></span>
@@ -79,11 +79,11 @@
 	<br/>
 	<div>
 		Commands: 
-		<% @commands.each do |comm| %>
+		<% command_list.each do |comm| %>
 			<form action="/try-move" style="display: inline">
 			<input name="cmdname" type="hidden" value="<%= comm %>"/>
 			<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
-			<input type="submit" data-display-target="submit" value="<%= comm %>" />
+			<input type="submit" data-display-target="submit" value="<%= expand_command(comm) %>" />
 			</form>
 		<% end %><br />
 			<form action="/execute" style="display: inline">

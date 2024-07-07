@@ -21,7 +21,7 @@ class MachiavelliGame
   end
 
   def start
-    @board = MachiavelliBoard.new(ui:)
+    @board = MachiavelliBoard.new(user_interface: ui)
     @data = @board.data # firt move_stauts needs a plce t be written
     ui.welcome
 

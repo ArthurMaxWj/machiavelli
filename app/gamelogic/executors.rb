@@ -123,10 +123,10 @@ class NewCombinationExecutor < Executor
   end
 end
 
-# executes :split_combination action
-class SplitCombinationExecutor < Executor
+# executes :break_combination action
+class BreakCombinationExecutor < Executor
   def self.intended
-    :split_combination
+    :break_combination
   end
 
   def requirements
@@ -135,13 +135,13 @@ class SplitCombinationExecutor < Executor
 
   def perform
     d_comb, d_place = @destination
-    perf_split_combination(d_comb, d_place)
+    perf_break_combination(d_comb, d_place)
     { table:, deck:, error: }
   end
 
   private
 
-  def perf_split_combination(d_comb, d_place)
+  def perf_break_combination(d_comb, d_place)
     comb = table[d_comb]
     a = comb[0..d_place]
     b = comb[d_place + 1..]

@@ -3,7 +3,7 @@
 # simple struct for storing one action (move, put, new, etc.)
 Action = Struct.new(:name, :origin, :destination) do
   def self.action_types
-    %i[draw_card move_card split_combination put_card put_combination new_combination].freeze
+    %i[draw_card move_card break_combination put_card put_combination new_combination].freeze
   end
 
   def action!(str)
@@ -15,7 +15,7 @@ Action = Struct.new(:name, :origin, :destination) do
   end
 
   def self.action_shorts
-    { 'm' => :move_card, 'p' => :put_card, 'n' => :new_combination, 's' => :split_combination }.freeze
+    { 'm' => :move_card, 'p' => :put_card, 'n' => :new_combination, 'b' => :break_combination }.freeze
   end
 
   def self.from(str)

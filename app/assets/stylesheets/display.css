@@ -1,5 +1,5 @@
 body {
-	background-color: beige;
+	/* background-color: beige; */
 	font-size: 1.5em;
 }
 
@@ -26,5 +26,11 @@ body {
 
 #display .spot.spot--selected {
 	color: green;
+}
+
+#display button, #display input[type=button], #display input[type=submit] {
+	background-color: white;
+	border: 3px solid deepskyblue;
+	border-radius: 10px;
 }
 
