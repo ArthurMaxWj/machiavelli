@@ -125,12 +125,12 @@ class GameController < ApplicationController
     true # for chaining return
   end
 
-  def s(_key, _val)
-    session[k] = v
+  def s(key, val)
+    session[key] = val
   end
 
-  def f(_key, _val)
-    flash[k] = v
+  def f(key, val)
+    flash[key] = val
   end
 
   def preview

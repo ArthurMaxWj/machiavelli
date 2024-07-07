@@ -1,5 +1,61 @@
 # frozen_string_literal: true
 
+# basic displaying methods for ConsoleUI
+module Displayers
+  def display_board(data, writeable: true)
+    out '{'
+    display_all_combinations(data.all_cards, writeable)
+    display_all_player_decks(data.player_decks, writeable)
+    out '}'
+  end
+
+  def display_all_combinations(all_cards, writeable)
+    out '| All combinations:'
+    all_cards.each_with_index do |comb, i| # all combinations:
+      cards = "[#{i}] "
+      comb.each do |card|
+        rep = writeable ? card.printable_representation : card.representation
+
+        cards += "#{rep} "
+      end
+      out "|     #{cards}"
+    end
+    out '|     <none yet>' if all_cards.empty?
+  end
+
+  def display_all_player_decks(player_decks, writeable)
+    player_decks.each_pair do |p, deck| # all cards:
+      pname = sym_to_player_name(p)
+      out "| Cards of player #{pname}:"
+      cards = ''
+      deck.each do |card|
+        rep = writeable ? card.printable_representation : card.representation
+        cards += "#{rep} "
+      end
+      out "|     #{cards}"
+    end
+  end
+
+  def display_finish_game(player:, give_up:, player_skips:, winner:)
+    if give_up
+      out "User #{sym_to_player_name(player)} gave up!"
+      out 'Skips:'
+      player_skips.each_pair do |p, num|
+        out "    #{p}: #{num}"
+      end
+    else
+      out "Player #{sym_to_player_name(winner)} won the game!"
+    end
+  end
+
+  def display_result(data)
+    return if data.uidata.actions.empty?
+
+    all_actions_str = data.uidata.actions.each_with_index.map { |a, i| "[#{i}] #{describe_action(a, data)}" }.join('\n')
+    out 'Success:'
+    out "	   #{all_actions_str}"
+  end
+end
 
 
 # extra action descriptions used with ConsoleUi
@@ -57,7 +113,7 @@ end
 # Contains predefined templates to use by other classes.
 class ConsoleUI
   include DescribeAction
-  include Displayers
+  include ::Displayers
 
   attr_accessor :mode, :store, :stored
 
@@ -138,62 +194,6 @@ class ConsoleUI
   end
 end
 
-# basic displaying methods for ConsoleUI
-module Displayers
-  def display_board(data, writeable: true)
-    out '{'
-    display_all_combinations(data.all_cards, writeable)
-    display_all_player_decks(data.player_decks, writeable)
-    out '}'
-  end
-
-  def display_all_combinations(all_cards, writeable)
-    out '| All combinations:'
-    all_cards.each_with_index do |comb, i| # all combinations:
-      cards = "[#{i}] "
-      comb.each do |card|
-        rep = writeable ? card.printable_representation : card.representation
-
-        cards += "#{rep} "
-      end
-      out "|     #{cards}"
-    end
-    out '|     <none yet>' if all_cards.empty?
-  end
-
-  def display_all_player_decks(player_decks, writeable)
-    player_decks.each_pair do |p, deck| # all cards:
-      pname = sym_to_player_name(p)
-      out "| Cards of player #{pname}:"
-      cards = ''
-      deck.each do |card|
-        rep = writeable ? card.printable_representation : card.representation
-        cards += "#{rep} "
-      end
-      out "|     #{cards}"
-    end
-  end
-
-  def display_finish_game(player:, give_up:, player_skips:, winner:)
-    if give_up
-      out "User #{sym_to_player_name(player)} gave up!"
-      out 'Skips:'
-      player_skips.each_pair do |p, num|
-        out "    #{p}: #{num}"
-      end
-    else
-      out "Player #{sym_to_player_name(winner)} won the game!"
-    end
-  end
-
-  def display_result(data)
-    return if data.uidata.actions.empty?
-
-    all_actions_str = data.uidata.actions.each_with_index.map { |a, i| "[#{i}] #{describe_action(a, data)}" }.join('\n')
-    out 'Success:'
-    out "	   #{all_actions_str}"
-  end
-end
 
 # Used for asking user for input (depending on console's mode)
 class Obtainer
