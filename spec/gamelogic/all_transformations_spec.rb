@@ -4,7 +4,7 @@
 require './app/gamelogic/machiavelliboard'
 
 BRE = false
-BN = []
+BN = [].freeze
 
 # describes all subclasses of Transformation
 describe 'all transformations' do
@@ -602,7 +602,7 @@ describe 'all transformations' do
                             end]
       end
 
-    
+
 
       context 'when no card in combination' do
         let(:cmdd) { 'b_:1-15' }

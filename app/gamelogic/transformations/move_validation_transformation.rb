@@ -54,6 +54,7 @@ class MoveValidationTransformation < Transformation
     deck = hdata.player_decks[hdata.player]
     Move.from(move_str, hdata.table, deck) => {ok:, value:}
     return e("Incorrect action: '#{value}'") unless ok
+
     # binding.break if move_str == 'p.-3:0-4' && BN == ['hi']
 
     exec_move(value) => {success:, resultant_data:}
@@ -102,11 +103,12 @@ class MoveValidationTransformation < Transformation
   end
 
   def save_hdata(resulting_data)
-    hdata.uidata.affected_cards = resulting_data[:affected_cards]
-    hdata.uidata.affecting_action = resulting_data[:affecting_action]
-    hdata.uidata.actions = resulting_data[:actions]
-    hdata.table = resulting_data[:table]
-    hdata.player_decks[hdata.player] = resulting_data[:deck]
+    resulting_data => {affected_cards:, affecting_action:, actions:, table:, deck:}
+    hdata.uidata.affected_cards = affected_cards
+    hdata.uidata.affecting_action = affecting_action
+    hdata.uidata.actions = actions
+    hdata.table = table
+    hdata.player_decks[hdata.player] = deck
 
     true
   end

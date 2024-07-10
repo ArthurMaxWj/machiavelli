@@ -57,7 +57,6 @@ module Displayers
   end
 end
 
-
 # extra action descriptions used with ConsoleUi
 module DescribeAction
   def describe_action(action, data)
@@ -193,7 +192,6 @@ class ConsoleUI
     Obtainer.new(self).obtain(str, cond, ask_str, &block)
   end
 end
-
 
 # Used for asking user for input (depending on console's mode)
 class Obtainer
