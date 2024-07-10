@@ -1,0 +1,24 @@
+<%= turbo_frame_tag "turbomain" do %>
+<h2> Extra commands</h2>
+<p>Extra commands can be executed via <u>/cmd?name=NAME&args=ARGS</u> where NAME and ARGS are name of commands and args</p>
+<p>Both helper commands and cheat commands do not trigger swap of player turn, one can still use prompt after using them.</p>
+<p>When using system console commands have the following format: <mark>SIGNname args</mark> where 
+SIGN is '%' for cheat commands and '&' for helper commands. When no args given you will be ask to provide them via console's input stream (no equivalent in web)</p>
+<h3>Cheat commands</h3>
+<p> Cheat commands will mark a player as cheater for other players! Here are the cheat commands:</p>
+<ul>
+    <li><mark>cheat.get/cget</mark>: used to obtain all cards given as parameters. Doesn't affect drawdeck at all. Example: 'cget 2d 3d 4d'</li>
+    <li><mark>cheat.draw/cdraw</mark>: used to obtain all cards given as parameters, it removes them from drawdeck. Example: 'cdraw 2d 3d 4d'</li>
+    <li><mark>cheat.deck/cdeck</mark>: Sets deck to contain ONLY card listed as parameters. Doesnt affect drawdeck and cards removed from players'
+    deck are not recovered into drawdeck. Example: 'cdeck as 2d 3d 4d'</li>
+</ul>
+
+<h3>Helper commands</h3>
+<p> Helper commands output some extra info for player to use in construtcting prompt. Here are the cheat commands:</p>
+<ul>
+    <li><mark>deck</mark>: Lists all cards in deck along with their numbers in deck. Used to help find number of given card. Example: 'deck'</li>
+       <li><mark>deck</mark>: Lists all cards in combination with given number along with their numbers in that combination.
+       Used to help find number of given card. Example: 'comb 0'</li>
+       <li><mark>...</mark>: Shows info about last executed action-command.</li>
+</ul>
+<% end %>

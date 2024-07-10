@@ -1,3 +1,7 @@
+<header>
+	<a href="/"><div id="logo" class="unifrakturcook-bold">Machiavelli</div></a>
+</header>
+
 <%= turbo_frame_tag "turbomain" do %>
 <div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected"id="display">
 	<h3> Move of player: <%= @player %>
@@ -53,7 +57,7 @@
 	
 	<div id="deck">
 		<% @deck.each_with_index do |card, card_idx| %>
-				<span 
+				<div 
 					data-display-target="dcard"
 					data-action="click->display#selectDeckCard" 
 					data-display-cardno-param="<%= card_idx %>"
@@ -61,8 +65,8 @@
 					data-rep="<%= card %>"
 					class="card"
 					>
-						<%= card[..-2] %><b><%= card[-1] %></b>
-					</span>
+						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+					</div>
 		<% end %>
 	</div>
 	
@@ -89,6 +93,7 @@
 			<form action="/execute" style="display: inline">
 				<input type="submit"  value="EXECUTE!" />
 			</form>
+			<%= link_to "Other commands", other_commands_info_path, class: "infolink small-infolink" %>
 		<br /><br />
 		or: 
 			<% if @cards_left %>
@@ -122,6 +127,8 @@
 			<input type="submit" value="Back" />
 		</form>
 	</div>
+
+	
 	<br/>
 	<div style="color: gray" ><%= flash[:helper] %></div>
 	<br/> <br/> <br/>
@@ -138,4 +145,9 @@
 		<div>User cheated: <%= @who_cheated %></div>
 	<% end %>
 </div>
+
+</footer>
+<%= link_to 'About', about_path, class: "infolink" %>
+<div id="copy"> Machiavelli &copy; A. M. Wójcik 2024-present</div>
+</footer>
 <% end %>

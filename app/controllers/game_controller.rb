@@ -18,6 +18,13 @@ class GameController < ApplicationController
     ready_front
   end
 
+   
+  def about
+  end
+
+  def other_commands_info
+  end
+
   def tryv_move
     preview.try_move("#{params[:cmdname]}#{params[:cmdargs]}")
     relflash
@@ -181,6 +188,7 @@ module Process
 
     go_home
   end
+ 
 
   private
 

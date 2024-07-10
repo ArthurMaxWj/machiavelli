@@ -179,7 +179,6 @@ class GameDataFromJSON
 
   def from_h
     [keys_check, values_check, cards_check, substructures_check].all? do |v|
-      puts "hmm#{!v.nil?}"
       v
     end
   end

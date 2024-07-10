@@ -1,6 +1,40 @@
+/* Google Fonts */
+.unifrakturcook-bold {
+	font-family: "UnifrakturCook", cursive;
+	font-weight: 700;
+	font-style: normal;
+}
+  
+ 
 body {
-	/* background-color: beige; */
+	background-color: mintcream;
 	font-size: 1.5em;
+	font-family: Garamond;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+
+mark {
+	display: inline-block;
+	border-radius: 4px;
+	color: crimson;
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size: 0.8em;
+	padding: 4px;
+	background-color: ivory;
+}
+
+#display {
+	margin: 10px;	
+}
+
+#display .card {
+	display: inline-block;
+	padding: 10px 10px 5px 10px;
 }
 
 #display .card:hover {
@@ -8,7 +42,10 @@ body {
 }
 
 #display .card.card--selected {
-	color: deepskyblue;
+	border: 5px solid deepskyblue;
+	border-radius: 3px;
+	padding: 5px 5px 0 5px;
+
 }
 
 
@@ -28,9 +65,39 @@ body {
 	color: green;
 }
 
-#display button, #display input[type=button], #display input[type=submit] {
-	background-color: white;
+button, #display button, #display input[type=button], #display input[type=submit] {
+	font-family: "Lucida Console", "Courier New", monospace;
+	background-color: snow;
+	padding: 2px;
 	border: 3px solid deepskyblue;
 	border-radius: 10px;
 }
 
+#display input[type=text] {
+	border: 0;
+	border-bottom: 2px solid black;
+	background: white;
+}
+
+#display input[type=text]:focus {
+	border: 0;
+	border-bottom: 2px solid deepskyblue;
+	outline: none;
+}
+
+#logo {
+	color: RebeccaPurple;
+	text-decoration: none;
+	font-size: 64px;
+	text-align: center;
+	background-color: lightsteelblue;
+}
+
+.infolink {
+	color: lightgray;
+	text-decoration: underline;
+}
+
+.infolink.small-infolink {
+	font-size: 20px;
+}

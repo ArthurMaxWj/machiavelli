@@ -23,4 +23,7 @@ Rails.application.routes.draw do
 
   get '/cheat-cmd', to: 'game#cmd'
   get '/helper-cmd', to: 'game#cmd'
+
+  get 'about', to: 'game#about'
+  get 'other-commands-info', to: 'game#other_commands_info'
 end
