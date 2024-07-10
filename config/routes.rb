@@ -26,4 +26,6 @@ Rails.application.routes.draw do
 
   get 'about', to: 'game#about'
   get 'other-commands-info', to: 'game#other_commands_info'
+
+  get 'edit-names', to: 'game#edit_names'
 end

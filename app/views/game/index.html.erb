@@ -4,6 +4,13 @@
 
 <%= turbo_frame_tag "turbomain" do %>
 <div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected"id="display">
+	<div id="player-names">
+		<form action="/edit-names">
+			<input name="fplayer" type="text"  value="<%= @player1 %>" /> vs
+			<input name="splayer" type="text"  value="<%= @player2 %>" />
+			<input type="submit" value="Rename" />
+		</form>
+		</div>
 	<h3> Move of player: <%= @player %>
 	<div  id="table">
 		<% @table.each_with_index do |comb, comb_idx| %>
@@ -144,6 +151,11 @@
 	<% if @who_cheated.present? %>
 		<div>User cheated: <%= @who_cheated %></div>
 	<% end %>
+
+	<form action="/restart">
+		<input type="hidden" name="restartall" value="no" />
+		<input type="submit" value="Restart Game" />
+	</form>
 </div>
 
 </footer>

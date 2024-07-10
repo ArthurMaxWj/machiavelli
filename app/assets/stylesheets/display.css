@@ -65,7 +65,7 @@ mark {
 	color: green;
 }
 
-button, #display button, #display input[type=button], #display input[type=submit] {
+ button, input[type=button], input[type=submit] {
 	font-family: "Lucida Console", "Courier New", monospace;
 	background-color: snow;
 	padding: 2px;
@@ -100,4 +100,14 @@ button, #display button, #display input[type=button], #display input[type=submit
 
 .infolink.small-infolink {
 	font-size: 20px;
+}
+
+#player-names input[type=text] {
+	font-size: 0.7em;
+	width: 80px;
+}
+
+
+#player-names {
+	margin-left: 70%;
 }

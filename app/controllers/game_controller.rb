@@ -63,10 +63,10 @@ class GameController < ApplicationController
   def scoreboard
     go_home and return unless @board.data.game_status[:finished]
 
-    @player = @board.data.player
+    @player = player_name(@board.data.player)
     @give_up = @board.data.game_status[:give_up]
     @player_skips = @board.data.player_skips
-    @winner = @board.data.game_status[:winner]
+    @winner = player_name(@board.data.game_status[:winner])
   end
 
   def give_up
@@ -81,13 +81,56 @@ class GameController < ApplicationController
 
     go_home
   end
+  
+  def edit_names
+    session[:fplayer] = params[:fplayer]
+    session[:splayer] = params[:splayer]
 
+    go_home
+  end
+
+  # SHARED WITH OTHER MODULES: -----------------------------------------------------------------------------
+  
+  def go_home
+    redirect_to action: 'index'
+    true # for chaining return
+  end
+
+  def go_scoreboard
+    redirect_to action: 'scoreboard'
+    true # for chaining return
+  end
+
+  def s(key, val)
+    session[key] = val
+  end
+
+  def f(key, val)
+    flash[key] = val
+  end
+
+  def player_name(player)
+    case player
+    when :first_player
+      session[:fplayer].presence || 'Alex'
+    when :second_player
+      session[:splayer].presence || 'Max'
+    else
+      '<unknown player>'
+    end
+  end
+
+  def preview
+    @preview_move ||= PreviewMove.new(@board, session[:preview].presence || '')
+
+    @preview_move
+  end
 
   private
 
 
   def ready_front
-    @player = @board.data.player
+    @player = player_name(@board.data.player)
     @cards_left = @board.data.drawboard.cards.present? # used for draw/skip and give up buttons
 
     @table = front_table
@@ -96,6 +139,9 @@ class GameController < ApplicationController
     @cur_promt = preview.move
     @helper_out = flash[:helper_out]
     @who_cheated = session[:who_cheated]
+
+    @player1 = player_name(:first_player)
+    @player2 = player_name(:second_player)
   end
 
   def front_table
@@ -121,29 +167,6 @@ class GameController < ApplicationController
     flash[:warning] = warning if warning
   end
 
-  def go_home
-    redirect_to action: 'index'
-    true # for chaining return
-  end
-
-  def go_scoreboard
-    redirect_to action: 'scoreboard'
-    true # for chaining return
-  end
-
-  def s(key, val)
-    session[key] = val
-  end
-
-  def f(key, val)
-    flash[key] = val
-  end
-
-  def preview
-    @preview_move ||= PreviewMove.new(@board, session[:preview].presence || '')
-
-    @preview_move
-  end
 end
 
 
@@ -185,6 +208,8 @@ module Process
     s(:game_state, '')
     s(:preview, '')
     s(:who_cheated, '')
+    s(:fplayer, 'Alex') if params[:restartall] == 'yes'
+    s(:splayer, 'Max') if params[:restartall] == 'yes'
 
     go_home
   end
