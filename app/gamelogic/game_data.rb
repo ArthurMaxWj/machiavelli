@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'JSON'
+require 'json'
 # require 'byebug'
 require_relative 'drawboard'
 require_relative 'uidata'
