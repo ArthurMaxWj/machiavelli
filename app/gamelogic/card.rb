@@ -25,10 +25,6 @@ class Card < Data.define(:value, :suit)
     Card.new(value: v, suit: s).ok_or_nil
   end
 
-  # def self.from_h(card_hash)
-  # Card.new(**card_hash).ok_or_nil
-  # end
-
   def ok?
     Card.correct?(value, suit)
   end
@@ -105,7 +101,6 @@ class Card < Data.define(:value, :suit)
   end
 
   def to_json(*_args)
-    # '"' + representation + '"'
     "\"#{representation}\""
   end
 
@@ -120,9 +115,3 @@ class Card < Data.define(:value, :suit)
     ORDERING_OF_VALUES.find_index(value)
   end
 end
-
-# def Card!(val, suit)
-# raise 'Incorrect card' unless Card.correct?(val, suit)
-
-# Card.new(value: val, suit:)
-# end

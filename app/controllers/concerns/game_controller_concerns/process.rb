@@ -23,6 +23,7 @@ module Process
     @board.make_move('d', should_swich_player: true) => {ok:, error:}
     f(:error, error) unless ok
 
+    s(:preview, '')
     go_home
   end
 
@@ -30,6 +31,7 @@ module Process
     @board.make_move('s', should_swich_player: true) => {ok:, error:}
     f(:error, error) unless ok
 
+    s(:preview, '')
     go_home
   end
 

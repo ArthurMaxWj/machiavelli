@@ -30,15 +30,6 @@ class MachiavelliBoard
     @ui = user_interface
   end
 
-  # def show(str = '')
-  #   puts "--- #{str}"
-  #   dat_hash.each_pair do |p|
-  #     label, value = p
-  #     puts "| #{label}: #{value}"
-  #   end
-  #   puts ';'
-  # end
-
   def reset_game
     reset_data
     distribute_card
