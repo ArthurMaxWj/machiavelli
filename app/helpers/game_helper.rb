@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helps with expanding commands and card names/paths
 module GameHelper
   def card_path(rep)
     asset_path("cards/#{rep.downcase}.svg")

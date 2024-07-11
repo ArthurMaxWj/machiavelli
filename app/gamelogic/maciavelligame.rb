@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '.\machiavelliboard'
+require_relative 'machiavelliboard'
 
 # interface for machiavelli board and immplementation of related logicgame
 class MachiavelliGame

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
+module GameControllerExtraClasses
+
 # handles preview of Move (action-move) before its exsecuted by board
 # (used by GameController)
 class PreviewMove
-  extend ActiveSupport::Concern
-
   attr_accessor :move
 
   def initialize(board, move_str)
@@ -64,4 +64,5 @@ class PreviewMove
   def flash_msgs
     { error: @flash_error, warning: @flash_warning }
   end
+end
 end

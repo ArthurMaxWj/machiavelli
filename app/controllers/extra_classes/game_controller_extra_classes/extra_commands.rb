@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-# commands related to transformations used by GameCOntroller
+module GameControllerExtraClasses
+# commands related to transformations used by GameController
 class ExtraCommands
-  extend ActiveSupport::Concern
-
   include TransformationHandler
   attr_accessor :data, :ui
 
@@ -86,4 +85,5 @@ class ExtraCommands
 
     @data.move_status
   end
+end
 end

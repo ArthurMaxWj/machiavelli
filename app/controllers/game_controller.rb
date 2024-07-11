@@ -2,14 +2,15 @@
 
 require_relative '../gamelogic/machiavelliboard'
 require_relative 'concerns/game_controller_concerns/common_game_back'
-require_relative 'concerns/game_controller_concerns/extra_commands'
-require_relative 'concerns/game_controller_concerns/preview_move'
 require_relative 'concerns/game_controller_concerns/process'
+require_relative 'extra_classes/game_controller_extra_classes/extra_commands'
+
 
 # web version of MachiavelliGame; conects MachiavelliBoard wit web interface
 class GameController < ApplicationController
-  include CommonGameBack
-  include Process
+  include GameControllerConcerns::CommonGameBack
+  include GameControllerConcerns::Process
+
   before_action :state_from_session, except: [:restart]
   after_action :save_session, except: [:restart]
   after_action { session[:preview] = preview.move }
@@ -48,7 +49,7 @@ class GameController < ApplicationController
   end
 
   def cmd
-    ExtraCommands.new(@board.data).cmd(params[:cmd],
+    GameControllerExtraClasses::ExtraCommands.new(@board.data).cmd(params[:cmd],
                                        params[:args]) => {who_cheated:, helper_out:, success:, error:, data:}
 
     if success
