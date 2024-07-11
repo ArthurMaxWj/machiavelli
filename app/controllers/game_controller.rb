@@ -49,8 +49,8 @@ class GameController < ApplicationController
   end
 
   def cmd
-    GameControllerExtraClasses::ExtraCommands.new(@board.data).cmd(params[:cmd],
-                                       params[:args]) => {who_cheated:, helper_out:, success:, error:, data:}
+    ec = GameControllerExtraClasses::ExtraCommands.new(@board.data).cmd(params[:cmd], params[:args])
+    ec => {who_cheated:, helper_out:, success:, error:, data:}
 
     if success
       @board.data = data

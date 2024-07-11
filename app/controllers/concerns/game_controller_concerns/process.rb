@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module GameControllerConcerns
-  # adds fucntionality responsible for operations on @board (MachiavelliBoard) for GameCOntroller
+  # adds fucntionality responsible for operations on @board (MachiavelliBoard) for GameController
   module Process
     extend ActiveSupport::Concern
 
