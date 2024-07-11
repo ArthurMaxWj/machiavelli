@@ -2,8 +2,8 @@
 
 require 'JSON'
 # require 'byebug'
-require_relative '.\drawboard'
-require_relative '.\uidata'
+require_relative 'drawboard'
+require_relative 'uidata'
 
 GD_PROPERTIES = %i[game_status move_status
                    player drawboard player_decks player_skips table uidata].freeze

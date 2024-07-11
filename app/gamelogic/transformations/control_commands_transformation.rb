@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '.\transformation'
+require_relative 'transformation'
 
 # adds control commands to MAchiavelliBoard
 class ControlCommandsTransformation < Transformation

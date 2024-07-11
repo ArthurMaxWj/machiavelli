@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '.\action'
-require_relative '.\executors'
+require_relative 'action'
+require_relative 'executors'
 
 # represents one move consisting of any number of Actions (only move-actions not other commands)
 class Move

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # spec/card_spec.rb
-require_relative '..\..\app\gamelogic\card'
+require_relative '../../app/gamelogic/card'
 
 
 describe Card do

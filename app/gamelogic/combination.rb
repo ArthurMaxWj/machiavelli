@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '.\card'
+require_relative 'card'
 
 # used to verify if a group of cards is correct
 class Combination

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '.\card'
+require_relative 'card'
 
 # store of cards free to give to players
 Drawboard = Struct.new(:cards) do

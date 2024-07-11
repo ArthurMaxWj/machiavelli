@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # spec/machiavelliboard_spec.rb
-require_relative '..\..\app\gamelogic\machiavelliboard'
+require_relative '../../app/gamelogic/machiavelliboard'
 
 describe MachiavelliBoard do
   let(:board) { MachiavelliBoard.new }

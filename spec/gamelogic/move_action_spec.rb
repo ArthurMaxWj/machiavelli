@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # spec/move_Action_spec.rb
-require_relative '..\..\app\gamelogic\action'
+require_relative '../../app/gamelogic/action'
 
 describe Action do
   describe '::from' do

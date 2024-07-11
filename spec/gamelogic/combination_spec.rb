@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # spec/combination_spec.rb
-require_relative '..\..\app\gamelogic\combination'
+require_relative '../../app/gamelogic/combination'
 
 describe Combination do
   describe '#valid' do

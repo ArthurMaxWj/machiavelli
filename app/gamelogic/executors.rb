@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './combination'
+require_relative 'combination'
 
 # used to execute a single action
 class Executor

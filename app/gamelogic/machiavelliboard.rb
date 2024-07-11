@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '.\game_data'
-require_relative '.\transformations\transformation_handler'
-require_relative '.\transformations\control_commands_transformation'
-require_relative '.\transformations\move_validation_transformation'
-require_relative '.\transformations\helper_commands_transformation'
-require_relative '.\transformations\cheat_commands_transformation'
-require_relative '.\consoleui'
+require_relative 'game_data'
+require_relative 'transformations/transformation_handler'
+require_relative 'transformations/control_commands_transformation'
+require_relative 'transformations/move_validation_transformation'
+require_relative 'transformations/helper_commands_transformation'
+require_relative 'transformations/cheat_commands_transformation'
+require_relative 'consoleui'
 
 
 

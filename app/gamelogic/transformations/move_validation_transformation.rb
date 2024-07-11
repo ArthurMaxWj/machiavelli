@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '.\transformation'
-require_relative '..\move'
+require_relative 'transformation'
+require_relative '../move'
 
 # adds control commands to MAchiavelliBoard
 class MoveValidationTransformation < Transformation

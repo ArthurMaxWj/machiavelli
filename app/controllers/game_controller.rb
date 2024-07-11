@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '..\gamelogic\machiavelliboard'
-require_relative 'concerns\game_controller_concerns\common_game_back'
-require_relative 'concerns\game_controller_concerns\extra_commands'
-require_relative 'concerns\game_controller_concerns\preview_move'
-require_relative 'concerns\game_controller_concerns\process'
+require_relative '../gamelogic/machiavelliboard'
+require_relative 'concerns/game_controller_concerns/common_game_back'
+require_relative 'concerns/game_controller_concerns/extra_commands'
+require_relative 'concerns/game_controller_concerns/preview_move'
+require_relative 'concerns/game_controller_concerns/process'
 
 # web version of MachiavelliGame; conects MachiavelliBoard wit web interface
 class GameController < ApplicationController
