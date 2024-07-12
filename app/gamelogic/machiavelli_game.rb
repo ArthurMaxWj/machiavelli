@@ -103,4 +103,4 @@ class MachiavelliGame
   end
 end
 
-MachiavelliGame.new.start
+MachiavelliGame.new.start if ARGV.first == 'start' || ARGV.first == 's'
