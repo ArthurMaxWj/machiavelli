@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 
-
 module GameControllerExtraClasses
   # handles preview of Move (action-move) before its exsecuted by board
   # (used by GameController)
