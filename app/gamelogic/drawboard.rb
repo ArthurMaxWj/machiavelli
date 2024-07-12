@@ -24,9 +24,7 @@ Drawboard = Struct.new(:cards) do
     cards.shift
   end
 
-  def size
-    cards.size
-  end
+  delegate :size, to: :cards
 
   def deep_duplicate
     copied = dup

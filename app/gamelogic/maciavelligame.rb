@@ -52,7 +52,7 @@ class MachiavelliGame
 
     # cheat/helper commands allow for more moves after (same player has move)
     if (handle(:helper_commands, str) || handle(:cheat_commands, str)) && success?
-      puts ui.error(@data.move_status[:error]) unless success?
+      Rails.logger.debug ui.error(@data.move_status[:error]) unless success?
       return success?
     end
 
@@ -81,7 +81,7 @@ class MachiavelliGame
   end
 
   def ui
-    @ui ||= ConsoleUI.new
+    @ui ||= ConsoleUi.new
   end
 
   # TRANSFORMATIONS --------------

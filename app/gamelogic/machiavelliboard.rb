@@ -6,7 +6,7 @@ require_relative 'transformations/control_commands_transformation'
 require_relative 'transformations/move_validation_transformation'
 require_relative 'transformations/helper_commands_transformation'
 require_relative 'transformations/cheat_commands_transformation'
-require_relative 'consoleui'
+require_relative 'console_ui'
 
 
 

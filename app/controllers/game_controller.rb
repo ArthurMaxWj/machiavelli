@@ -11,8 +11,8 @@ class GameController < ApplicationController
   include GameControllerConcerns::CommonGameBack
   include GameControllerConcerns::Process
 
-  before_action :state_from_session, except: [:restart]
-  after_action :save_session, except: [:restart]
+  before_action :state_from_session
+
   after_action { session[:preview] = preview.move }
 
   def index
@@ -126,10 +126,6 @@ class GameController < ApplicationController
   def state_from_session
     data = session[:game_state].present? ? GameData.from_json(session[:game_state]) : nil
     @board = MachiavelliBoard.new(data:)
-  end
-
-  def save_session
-    session[:game_state] = @board.data.to_json
   end
 
   def relflash

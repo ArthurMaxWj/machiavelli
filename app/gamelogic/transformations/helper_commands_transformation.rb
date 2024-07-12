@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'transformation'
-require_relative '../consoleui'
+require_relative '../console_ui'
 
 
 # adds helper commands to MAchiavelliGame

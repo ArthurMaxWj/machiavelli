@@ -15,7 +15,7 @@ module GameControllerExtraClasses
 
     def cmd(cmd, args)
       kind = CheatCommandsTransformation::CHEAT_CMDS.include?("%#{cmd}") ? :cheat : :helper
-      kind == :cheat ? nil : @ui = ConsoleUI.new(:o, store: true)
+      kind == :cheat ? nil : @ui = ConsoleUi.new(:o, store: true)
 
       kind == :cheat ? cheat("%#{cmd}", args) : helper("&#{cmd}", args)
     end

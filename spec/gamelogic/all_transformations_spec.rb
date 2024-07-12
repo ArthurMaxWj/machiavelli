@@ -667,5 +667,5 @@ def mod!(transformation, data, args)
 end
 
 def console
-  ConsoleUI.new(:none) # no input or output allowed
+  ConsoleUi.new(:none) # no input or output allowed
 end

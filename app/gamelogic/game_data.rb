@@ -40,10 +40,10 @@ GameData = Struct.new(*GD_PROPERTIES) do
 
   def gen_init_data
     {
-      player_decks: players.map do |p|
-                      [p, []]
-                    end.to_h,
-      player_skips: players.map { |p| [p, 0] }.to_h
+      player_decks: players.index_with do |_p|
+                      []
+                    end,
+      player_skips: players.index_with { |_p| 0 }
     }
   end
 
@@ -67,9 +67,7 @@ GameData = Struct.new(*GD_PROPERTIES) do
     self.player = other_player
   end
 
-  def size
-    table.size
-  end
+  delegate :size, to: :table
 
   def all_cards
     table.map(&:dup)

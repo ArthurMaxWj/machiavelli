@@ -5,6 +5,10 @@ module GameControllerConcerns
   module Process
     extend ActiveSupport::Concern
 
+    included do
+      after_action :save_session, except: [:restart]
+    end
+
     def execute
       @ui = nil
 
@@ -48,6 +52,10 @@ module GameControllerConcerns
 
 
     private
+
+    def save_session
+      s(:game_state, @board.data.to_json)
+    end
 
     def proceed_execution(proceed, prompt)
       f(:error, 'CANT EXECUTE WITH ERRORS! Experiment with your prompt first.') and return unless proceed

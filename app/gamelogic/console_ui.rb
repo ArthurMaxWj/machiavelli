@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# basic displaying methods for ConsoleUI
+# basic displaying methods for ConsoleUi
 module Displayers
   def display_board(data, writeable: true)
     out '{'
@@ -110,7 +110,7 @@ end
 # used for IO operations in system console
 #
 # Contains predefined templates to use by other classes.
-class ConsoleUI
+class ConsoleUi
   include DescribeAction
   include ::Displayers
 
@@ -166,7 +166,10 @@ class ConsoleUI
   end
 
   def out(str = '')
+    # rubocop:disable Rails/Output
     puts str if out?
+    # rubocop:enable Rails/Output
+
     @stored.push(str) if @store
   end
 
@@ -179,7 +182,10 @@ class ConsoleUI
   end
 
   def write(str = '')
+    # rubocop:disable Rails/Output
     print str if out?
+    # rubocop:enable Rails/Output
+
     @stored = [''] if @stored.empty?
     @stored[-1] = @stored[-1] + str if @store
   end
@@ -214,7 +220,7 @@ class Obtainer
   private
 
   def check_if_provided(str, cond)
-    already_provided = !str.nil? && !str.empty? # if given along with
+    already_provided = str.present? # if given along with
     result = nil
     if already_provided
       r = yield(str)

@@ -76,3 +76,8 @@ end
 gem 'psych', '~> 3.0'
 
 gem 'activerecord-session_store'
+
+
+gem 'rubocop'
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec_rails', require: false
