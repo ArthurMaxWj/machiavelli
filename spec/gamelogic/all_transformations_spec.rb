@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # spec/all_transformations_spec.rb
-require './app/gamelogic/machiavelliboard'
+require './app/gamelogic/machiavelli_board'
 
 BRE = false
 BN = [].freeze

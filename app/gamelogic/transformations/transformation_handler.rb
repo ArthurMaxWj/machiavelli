@@ -4,7 +4,7 @@
 module TransformationHandler
   def handle(name, *args)
     dd = data.deep_duplicate
-    dd.uidata = UIData.fresh
+    dd.uidata = UiData.fresh
     transform_result(name, dd, args) => { handled:, success:, new_data:, errors: }
     @handled = handled
     @success = success

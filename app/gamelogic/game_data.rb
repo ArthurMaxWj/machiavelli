@@ -3,7 +3,7 @@
 require 'json'
 # require 'byebug'
 require_relative 'drawboard'
-require_relative 'uidata'
+require_relative 'ui_data'
 
 GD_PROPERTIES = %i[game_status move_status
                    player drawboard player_decks player_skips table uidata].freeze
@@ -20,7 +20,7 @@ GameData = Struct.new(*GD_PROPERTIES) do
     self.player_decks = player_decks
     self.player_skips = player_skips
     self.table = []
-    self.uidata = UIData.fresh
+    self.uidata = UiData.fresh
     self
   end
 
@@ -115,7 +115,7 @@ GameData = Struct.new(*GD_PROPERTIES) do
     w = deep_duplicate
     w.move_status = {}
     w.drawboard.order
-    w.uidata = UIData.fresh
+    w.uidata = UiData.fresh
     w
   end
 
@@ -240,7 +240,7 @@ class GameDataFromJSON
 
   def substructures_check
     @h[:drawboard] = Drawboard.from_h(@h[:drawboard].to_h)
-    @h[:uidata] = UIData.from_h(@h[:uidata].to_h)
+    @h[:uidata] = UiData.from_h(@h[:uidata].to_h)
     return e('Wrong :drawboard/:uidata') if @h[:drawboard].nil? || @h[:uidata].nil?
 
     true

@@ -118,7 +118,7 @@ class MachiavelliBoard
   end
 
   def process_move(move_str)
-    data.uidata = UIData.fresh
+    data.uidata = UiData.fresh
 
     return success? if handle(:control_commands, move_str)
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../gamelogic/machiavelliboard'
+require_relative '../gamelogic/machiavelli_board'
 require_relative 'concerns/game_controller_concerns/common_game_back'
 require_relative 'concerns/game_controller_concerns/process'
 require_relative '../extra_classes/game_controller_extra_classes/extra_commands'
