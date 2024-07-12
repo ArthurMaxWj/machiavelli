@@ -91,7 +91,8 @@ class Move
   private
 
   def executors
-    [MoveCardExecutor, PutCardExecutor, NewCombinationExecutor, BreakCombinationExecutor]
+    [Executors::MoveCardExecutor, Executors::PutCardExecutor, Executors::NewCombinationExecutor,
+     Executors::BreakCombinationExecutor]
   end
 
   def executor_of(action)
