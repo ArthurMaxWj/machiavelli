@@ -10,7 +10,7 @@ BN = [].freeze
 describe 'all transformations' do
   describe ControlCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
-    let(:transf) { ControlCommandsTransformation.new }
+    let(:transf) { Transformations::ControlCommandsTransformation.new }
 
     context 'when wrong command given' do
       let(:cmd) { 'wrong' }
@@ -147,7 +147,7 @@ describe 'all transformations' do
 
   describe HelperCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
-    let(:transf) { HelperCommandsTransformation.new }
+    let(:transf) { Transformations::HelperCommandsTransformation.new }
 
 
 
@@ -199,7 +199,7 @@ describe 'all transformations' do
 
   describe CheatCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
-    let(:transf) { CheatCommandsTransformation.new }
+    let(:transf) { Transformations::CheatCommandsTransformation.new }
 
     context 'correct %cget/%cheat.get command given' do
       let(:cards) { '2d 10s 6h' }
@@ -346,7 +346,7 @@ describe 'all transformations' do
 
   describe MoveValidationTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
-    let(:transf) { MoveValidationTransformation.new }
+    let(:transf) { Transformations::MoveValidationTransformation.new }
 
     before do
       board.data.table = [%w[2d 3d 4d 5d].map do |c|

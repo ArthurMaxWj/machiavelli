@@ -4,15 +4,13 @@ require_relative 'game_data'
 require_relative 'transformations/transformation_handler'
 require_relative 'transformations/control_commands_transformation'
 require_relative 'transformations/move_validation_transformation'
-require_relative 'transformations/helper_commands_transformation'
-require_relative 'transformations/cheat_commands_transformation'
 require_relative 'console_ui'
 
 
 
 # generic basic game logic
 class MachiavelliBoard
-  include TransformationHandler
+  include Transformations::TransformationHandler
 
   attr_accessor :data, :ui
 
@@ -85,8 +83,8 @@ class MachiavelliBoard
 
   def transformation_list
     @tlist ||= {
-      control_commands: ControlCommandsTransformation.new,
-      move_validation: MoveValidationTransformation.new
+      control_commands: Transformations::ControlCommandsTransformation.new,
+      move_validation: Transformations::MoveValidationTransformation.new
     }
 
     @tlist

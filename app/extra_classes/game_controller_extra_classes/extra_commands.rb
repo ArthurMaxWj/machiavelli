@@ -3,7 +3,7 @@
 module GameControllerExtraClasses
   # commands related to transformations used by GameController
   class ExtraCommands
-    include TransformationHandler
+    include Transformations::TransformationHandler
     attr_accessor :data, :ui
 
     attr_accessor :helper_out, :who_cheated, :success, :error
@@ -14,14 +14,14 @@ module GameControllerExtraClasses
     end
 
     def cmd(cmd, args)
-      kind = CheatCommandsTransformation::CHEAT_CMDS.include?("%#{cmd}") ? :cheat : :helper
+      kind = Transformations::CheatCommandsTransformation::CHEAT_CMDS.include?("%#{cmd}") ? :cheat : :helper
       kind == :cheat ? nil : @ui = ConsoleUi.new(:o, store: true)
 
       kind == :cheat ? cheat("%#{cmd}", args) : helper("&#{cmd}", args)
     end
 
     def cheat(cmd, args)
-      if CheatCommandsTransformation::CHEAT_CMDS.include?(cmd)
+      if Transformations::CheatCommandsTransformation::CHEAT_CMDS.include?(cmd)
         @success = process_cheat(cmd, args)
       else
         @error = 'Unknown cheat/helper command'
@@ -31,7 +31,7 @@ module GameControllerExtraClasses
     end
 
     def helper(cmd, args)
-      if HelperCommandsTransformation::CMD_LIST.include?(cmd)
+      if Transformations::HelperCommandsTransformation::CMD_LIST.include?(cmd)
         @success = process_helper(cmd, args)
       else
         @error = 'Unknown cheat/helper command'
@@ -42,8 +42,8 @@ module GameControllerExtraClasses
 
     def transformation_list
       @tlist ||= {
-        helper_commands: HelperCommandsTransformation.new,
-        cheat_commands: CheatCommandsTransformation.new
+        helper_commands: Transformations::HelperCommandsTransformation.new,
+        cheat_commands: Transformations::CheatCommandsTransformation.new
       }
 
       @tlist

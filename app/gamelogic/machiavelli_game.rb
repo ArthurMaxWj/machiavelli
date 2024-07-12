@@ -4,7 +4,7 @@ require_relative 'machiavelli_board'
 
 # interface for machiavelli board and immplementation of related logicgame
 class MachiavelliGame
-  include TransformationHandler
+  include Transformations::TransformationHandler
 
   attr_accessor :data
 
@@ -88,8 +88,8 @@ class MachiavelliGame
 
   def transformation_list
     {
-      helper_commands: HelperCommandsTransformation.new,
-      cheat_commands: CheatCommandsTransformation.new
+      helper_commands: Transformations::HelperCommandsTransformation.new,
+      cheat_commands: Transformations::CheatCommandsTransformation.new
     }
   end
 
