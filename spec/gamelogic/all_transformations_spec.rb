@@ -423,14 +423,9 @@ describe 'all transformations' do
           BN.push('hi')
           oldd = board.data.deep_duplicate
           modify(transf, oldd, cmdd) => {handled:, success:, errors:}
-          # puts '>>>>>>>>>>>>>>>>>>>>>>>>>'
-          # BRE = true
-          #  binding break
           expect(handled).to be true
           expect(success).to be false
           expect(errors.first).to be_eql('Neither iteration nor gradation')
-          # BRE = false
-          # puts '--------------------------------------------'
         end
       end
     end
@@ -638,7 +633,6 @@ describe 'all transformations' do
         end
 
         it 'report proper error' do
-          # binding.break
           old = board.data.deep_duplicate
           modify(transf, old, cmdd) => {handled:, success:, errors:}
 

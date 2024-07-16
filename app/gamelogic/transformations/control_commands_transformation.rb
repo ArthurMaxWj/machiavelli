@@ -19,9 +19,9 @@ module Transformations
       !!@success
     end
 
-    def update_after(_new_data)
-      hdata.move_status = { ok: success, error: errors.first }
-    end
+    # def update_after(_new_data)
+    #   hdata.move_status = { ok: success, error: errors.first }
+    # end
 
 
     private

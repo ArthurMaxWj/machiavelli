@@ -32,9 +32,9 @@ module Transformations
       @success
     end
 
-    def update_after(_new_data)
-      @data.move_status = { ok: success, error: errors.first }
-    end
+    # def update_after(_new_data)
+    #   @data.move_status = { ok: success?, error: errors.first }
+    # end
 
     private
 
@@ -45,8 +45,6 @@ module Transformations
       end
 
       @handled = true
-      #     binding.break if move_str == 'p.-3:0-4' && BN == ['hi']
-
 
       @success = work_with_move(move_str)
     end
@@ -56,25 +54,29 @@ module Transformations
       Move.from(move_str, hdata.table, deck) => {ok:, value:}
       return e("Incorrect action: '#{value}'") unless ok
 
-      # binding.break if move_str == 'p.-3:0-4' && BN == ['hi']
-
       exec_move(value) => {success:, resultant_data:}
       return false unless success
 
-      check_table(resultant_data[:table]) => {ok:, error:}
-      @try_mode_err_covered = !ok
-      e(error) # unless @try_mode
+      work_with_valid_move(success, resultant_data)
+    end
 
-      save_hdata(resultant_data) if success && (ok || @try_mode)
-      success && ok
+    def work_with_valid_move(success, resultant_data)
+      check_table(resultant_data[:table]) => {ok:, error:}
+      @try_mode_err_covered ||= !ok
+      e(error) unless ok
+
+      accepted = success && (ok || @try_mode)
+      save_hdata(resultant_data) if accepted
+      accepted
     end
 
     def exec_move(value)
-      check_move_effects(value) => { error:, success:, table:, rdat:}
+      check_move_effects(value) => { error:, covered:, success:, table:, rdat:}
 
-      s = success ? true : e(error)
+      @try_mode_err_covered = covered
+      e(error) unless error.nil?
 
-      { success: s, resultant_data: rdat }
+      { success:, resultant_data: rdat }
     end
 
     def check_all_correct(table)
@@ -88,14 +90,15 @@ module Transformations
     end
 
     def check_move_effects(value)
-      rdat = value.run
+      rdat = value.run(try_mode: @try_mode)
       rdat => {
             success:, error:,
             table:, deck:,
             affected_cards:, affecting_action:,
-            actions:
+            actions:, covered:
           }
-      { error:, success:, table:, rdat: }
+
+      { error:, covered:, success:, table:, rdat: }
     end
 
     # move was succesful, now check if combinations are valid

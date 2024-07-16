@@ -34,6 +34,7 @@ mark {
 
 #display .card {
 	display: inline-block;
+	vertical-align: top;
 	padding: 10px 10px 5px 10px;
 }
 
@@ -48,9 +49,11 @@ mark {
 
 }
 
-
-
 #display .spot {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	padding-top: 64px;
 	color: darkgray;
 }
 

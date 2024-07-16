@@ -5,7 +5,7 @@ require_relative 'executors'
 
 # represents one move consisting of any number of Actions (only move-actions not other commands)
 class Move
-  attr_accessor :error
+  attr_accessor :error, :covered
 
   def self.from(str, table, deck)
     strings = str.split(' ')
@@ -48,11 +48,13 @@ class Move
     end
   end
 
-  def run
+  def run(try_mode: false)
+    @try_mode = try_mode
+
     { success: execute, error: @error,
       table: @table, deck: @deck,
       affected_cards: @affected_cards, affecting_action: @affecting_action,
-      actions: @actions }
+      actions: @actions, covered: @covered }
   end
 
   def action_valid?(action)
@@ -79,9 +81,11 @@ class Move
   def perform_action(action)
     exe = executor_of(action)
 
-    exe.new(action, @table, @deck).perform => {table:, deck:, error:}
+    exe.new(action, @table, @deck, try_mode: @try_mode).perform => {table:, deck:, error:, covered:}
     @error = error
-    return false unless error.nil?
+    @covered = covered
+
+    return false if !error.nil? && !(@try_mode && @covered)
 
     @table = table
     @deck = deck

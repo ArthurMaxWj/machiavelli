@@ -16,7 +16,7 @@
 		<% @table.each_with_index do |comb, comb_idx| %>
 			<div class="comb">
 				<% comb.each_with_index do |card, card_idx| %>
-					<span 
+					<div 
 					data-display-target="spot"
 					data-action="click->display#selectSpot" 
 					data-display-combno-param="<%= comb_idx %>"
@@ -26,9 +26,9 @@
 					class="spot"
 					>
 						&bull;
-					</span>
+					</div>
 				
-					<span 
+					<div 
 					data-display-target="tcard"
 					data-action="click->display#selectTableCard" 
 					data-display-combno-param="<%= comb_idx %>"
@@ -38,8 +38,8 @@
 					data-rep="<%= card %>"
 					class="card"
 					>
-						<%= card[..-2] %><b><%= card[-1] %></b>
-					</span>
+						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+					</div>
 				<% end %>
 				
 				

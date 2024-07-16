@@ -38,3 +38,4 @@
 .byebug_history
 
 # Images of cards
+# OPTIMIZE we could add them here but add branch 'deploys' and rebase there with images in?

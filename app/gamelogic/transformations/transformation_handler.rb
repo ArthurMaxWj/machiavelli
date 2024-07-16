@@ -25,7 +25,7 @@ module Transformations
 
       transform(name, data, args) do |given_name, given_data, given_args|
         t = transformation_list[given_name]
-        c = ui.nil? ? ConsoleUi.new(:none) : ui # if no console set to dummy
+        c = ui.nil? ? ConsoleUi.new(:none) : ui # if no console, set to dummy
         @result = t.process(given_data.deep_duplicate, given_args, c)
       end
 

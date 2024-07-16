@@ -6,9 +6,11 @@ require_relative 'combination'
 module Executors
   # used to execute a single action
   class Executor
-    attr_accessor :action, :table, :deck, :name, :origin, :destination, :error
+    attr_accessor :action, :table, :deck, :name, :origin, :destination, :error, :covered, :try_mode
 
-    def initialize(action, table, deck)
+    def initialize(action, table, deck, try_mode: false)
+      @try_mode = try_mode
+      @covered = true
       init(action, table, deck)
     end
 
@@ -57,7 +59,7 @@ module Executors
       offset = is_same && is_before ? 1 : 0
 
       perform_move(d_comb, d_place, offset, origin)
-      { table:, deck:, error: }
+      { table:, deck:, error:, covered: false }
     end
 
     private
@@ -80,7 +82,7 @@ module Executors
     def perform
       d_comb, d_place = destination
       table[d_comb].insert(d_place, deck.delete_at(origin.first.last))
-      { table:, deck:, error: }
+      { table:, deck:, error:, covered: false }
     end
   end
 
@@ -96,7 +98,7 @@ module Executors
 
     def perform
       perf_new_combination(origin)
-      { table:, deck:, error: }
+      { table:, deck:, error:, covered: false }
     end
 
     private
@@ -137,20 +139,33 @@ module Executors
 
     def perform
       d_comb, d_place = @destination
+      @covered = false
       perf_break_combination(d_comb, d_place)
-      { table:, deck:, error: }
+      { table:, deck:, error:, covered: @covered }
     end
 
     private
 
     def perf_break_combination(d_comb, d_place)
-      comb = table[d_comb]
-      a = comb[0..d_place]
-      b = comb[d_place + 1..]
+      no_cards_err and return if d_place.zero? || d_place == table[d_comb].size
 
+      comb = table[d_comb]
+      first_comb = comb[0..d_place - 1]
+      second_comb = comb[d_place..]
+
+      perf_break_comb_modify(table, d_comb, first_comb, second_comb)
+    end
+
+    def perf_break_comb_modify(table, d_comb, first_comb, second_comb)
       table.delete_at(d_comb)
-      table.insert(d_comb, a)
-      table.insert(d_comb + 1, b)
+      table.insert(d_comb, first_comb)
+      table.insert(d_comb + 1, second_comb)
+    end
+
+    def no_cards_err
+      self.error = 'One of resulting combinations is empty'
+      @covered = try_mode
+      try_mode
     end
   end
 end
