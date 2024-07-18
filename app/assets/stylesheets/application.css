@@ -10,7 +10,56 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require './display.css'
  *= require_tree .
  *= require_self
  */
+
+
+/* Google Fonts */
+.unifrakturcook-bold {
+	font-family: "UnifrakturCook", cursive;
+	font-weight: 700;
+	font-style: normal;
+}
+  
+ 
+body {
+	background-color: mintcream;
+	font-size: 1.5em;
+	font-family: Garamond;
+	margin: 0;
+   padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+
+mark {
+	display: inline-block;
+	border-radius: 4px;
+	color: crimson;
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size: 0.8em;
+	padding: 4px;
+	background-color: ivory;
+}
+
+section {
+   max-width: 1200px;
+   text-align: justify; 
+ }
+
+section.small-section {
+  text-align: left; 
+}
+
+article {
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+a.back-link {
+   color: lime;
+}

@@ -1,32 +1,4 @@
-/* Google Fonts */
-.unifrakturcook-bold {
-	font-family: "UnifrakturCook", cursive;
-	font-weight: 700;
-	font-style: normal;
-}
-  
- 
-body {
-	background-color: mintcream;
-	font-size: 1.5em;
-	font-family: Garamond;
-	margin: 0;
-}
 
-a {
-	text-decoration: none;
-}
-
-
-mark {
-	display: inline-block;
-	border-radius: 4px;
-	color: crimson;
-	font-family: "Lucida Console", "Courier New", monospace;
-	font-size: 0.8em;
-	padding: 4px;
-	background-color: ivory;
-}
 
 #display {
 	margin: 10px;	

@@ -1,27 +1,19 @@
+<%= render 'top' %>
+
 <%= turbo_frame_tag "turbomain" do %>
+<article >
+
+<section class="small-section">
 <h1>Why created?</h1>
 <p>Game created by A. M. Wojcik for as a demo for possible future employers. Github: <a href="https://github.com/ArthurMaxWj/machiavelli"><u>https://github.com/ArthurMaxWj/machiavelli</u></a></p>
+</section>
 
-<h1>How to play?</h1>
-<p>On player turn player can make as many moves as they want as long as at the end all combinations are valid.</p>
-<p>Valid combination is either <b>iteration</b> or <b>gradation</b></p>
-<p>Gradation is a group of card where each card has the same suit but their value is increasing by exctyly one from left to right.
-    Start end end can be arbitrary. Order of cards is as follows: Ace, two to ten, Jack, Queen, King.
-    Minimum three cards reqired.</p>
-<p>Iteration is a group of cards of the same value but different suits. No duplicates allowed and minimum three cards required.</p>
-<p>Examples: <ul>
-    <li>3d 4d 5d 6d -- valid gradation</li>
-    <li>3d 5d 6d 7d -- NOT valid gradation</li>
-    <li>3d 5d  -- NOT valid gradation</li>
-    <li>3d 3s 3h -- valid iteration</li>
-    <li>3d 3s 3h 3c -- valid iteration</li>
-    <li>3d 3s 3s -- NOT valid iteration</li>
-    <li>3d 3s -- NOT valid iteration</li>
-</ul></p>
-<p>When player cant make a valid move they need to draw card from drawboard.
-     When no more card to draw they skip turn which is noted and number of skips displayed at the end of game.</p>
-<p>First player that reaches the point of having no cards in their deck wins.</p>
 
+<section class="small-section">
 <h1>Image sources:</h1>
 <p>Cards (Free Domain): https://tekeye.uk/playing_cards/svg-playing-cards</p>
+</section>
+<a href="/" class="back-link" data-turbo="false"><u>Back</u></a>
+
+</article>
 <% end %>

@@ -1,9 +1,7 @@
-<header>
-	<a href="/"><div id="logo" class="unifrakturcook-bold">Machiavelli</div></a>
-</header>
+<%= render 'top' %>
 
 <%= turbo_frame_tag "turbomain" do %>
-<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected"id="display">
+<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected" id="display">
 	<div id="player-names">
 		<form action="/edit-names">
 			<input name="fplayer" type="text"  value="<%= @player1 %>" /> vs

@@ -26,6 +26,8 @@ class GameController < ApplicationController
 
   def about; end
 
+  def roles; end
+
   def other_commands_info; end
 
   def tryv_move
@@ -80,7 +82,14 @@ class GameController < ApplicationController
   end
 
   def edit_prompt
-    preview.move = sanitize(params[:prompt])
+    p = params[:prompt]
+    Move.from(p, @board.data.table, @board.data.player_decks[@board.data.player]) => {ok:}
+
+    if ok
+      preview.move = p
+    else
+      flash[:error] = 'Invalid promt given'
+    end
 
     go_home
   end

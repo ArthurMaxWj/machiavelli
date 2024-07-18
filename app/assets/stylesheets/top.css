@@ -1,0 +1,25 @@
+nav#menu {
+    background-color: lightsteelblue;
+ }
+ 
+ nav#menu #pages {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+ }
+ 
+ nav#menu #pages .menu-item {
+     width: 100px;
+     padding: 5px;
+     margin: 0 10px;
+ 
+     color: white;
+     transition: background-color 0.5s;
+   }
+ 
+   nav#menu #pages .menu-item:hover {
+    background-color: #c0d4ee;
+  }
+ 
