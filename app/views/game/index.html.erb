@@ -1,7 +1,8 @@
 <%= render 'top' %>
 
+<div id="whole">
 <%= turbo_frame_tag "turbomain" do %>
-<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected" id="display">
+<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected" data-display-detected-class="detected" id="display">
 	<div id="player-names">
 		<form action="/edit-names">
 			<input name="fplayer" type="text"  value="<%= @player1 %>" /> vs
@@ -86,51 +87,57 @@
 		<span> Detected command: <b><span data-display-target="detected">?</span></span>
 	</div>
 	<br/>
-	<div>
-		Commands: 
-		<% command_list.each do |comm| %>
-			<form action="/try-move" style="display: inline">
-			<input name="cmdname" type="hidden" value="<%= comm %>"/>
-			<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
-			<input type="submit" data-display-target="submit" value="<%= expand_command(comm) %>" />
-			</form>
-		<% end %><br />
-			<form action="/execute" style="display: inline">
-				<input type="submit"  value="EXECUTE!" />
-			</form>
-			<%= link_to "Other commands", other_commands_info_path, class: "infolink small-infolink" %>
-		<br /><br />
-		or: 
-			<% if @cards_left %>
-				<form action="/draw-card" style="display: inline">
-				<input type="submit"  value="draw" />
+	<div id="controlpanel" data-controller="controlpanel" data-controlpanel-hidden-class="hidden">
+		<div class="tabs">
+			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
+			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
+		</div>
+		<div data-controlpanel-target="commands">
+			Commands: 
+			<% command_list.each do |comm| %>
+				<form action="/try-move" style="display: inline">
+				<input name="cmdname" type="hidden" value="<%= comm %>"/>
+				<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
+				<input type="submit" data-display-target="submit" data-cmd="<%= comm %>" value="<%= expand_command(comm) %>" />
 				</form>
-			<% else %>
-				<form action="/skip" style="display: inline">
-				<input type="submit"  value="skip" />
-				</form> (note: no cards will be drawn since there are none left, but this can decrease your score at the end of game)
+			<% end %> <%= link_to "Other commands", other_commands_info_path, class: "infolink small-infolink" %><br /> <br />
+				Ready? <form action="/execute" style="display: inline">
+					<input type="submit"  value="EXECUTE!" />
+				</form>
+				or: 
+				<% if @cards_left %>
+					<form action="/draw-card" style="display: inline">
+					<input type="submit"  value="draw" />
+					</form>
+				<% else %>
+					<form action="/skip" style="display: inline">
+					<input type="submit"  value="skip" />
+					</form> (note: no cards will be drawn since there are none left, but this can decrease your score at the end of game)
+					
+					<form action="/give-up" style="display: inline">
+					<input type="submit"  value="GIVE UP!" style="display: block; color: red; margin: 10px 0" />
+					</form>
+				<% end %>
 				
-				<form action="/give-up" style="display: inline">
-				<input type="submit"  value="GIVE UP!" style="display: block; color: red; margin: 10px 0" />
-				</form>
-			<% end %>
 			
-		
-		<br/><br/>
-		
-		Current move prompt: 
-		<form action="/edit-prompt" style="display: inline">
-			<input name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />
-			<input type="submit" value="Edit" />
-		</form>
-		<br/>
-		<form action="/clear-try-move" style="display: inline">
-			<input type="submit" value="Clear" />
-		</form>
-		
-		<form action="/back-try-move" style="display: inline">
-			<input type="submit" value="Back" />
-		</form>
+			<br/><br/>
+		</div>
+
+		<div data-controlpanel-target="prompt">
+			Current move prompt: 
+			<form action="/edit-prompt" style="display: inline">
+				<input name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />
+				<input type="submit" value="Edit" />
+			</form>
+			<br/>
+			<form action="/clear-try-move" style="display: inline">
+				<input type="submit" value="Clear" />
+			</form>
+			
+			<form action="/back-try-move" style="display: inline">
+				<input type="submit" value="Back" />
+			</form>
+		</div>
 	</div>
 
 	
@@ -161,3 +168,4 @@
 <div id="copy"> Machiavelli &copy; A. M. Wójcik 2024-present</div>
 </footer>
 <% end %>
+</div>

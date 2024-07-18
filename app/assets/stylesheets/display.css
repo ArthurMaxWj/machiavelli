@@ -40,7 +40,7 @@
 	color: green;
 }
 
- button, input[type=button], input[type=submit] {
+button, input[type=button], input[type=submit] {
 	font-family: "Lucida Console", "Courier New", monospace;
 	background-color: snow;
 	padding: 2px;
@@ -82,7 +82,15 @@
 	width: 80px;
 }
 
-
 #player-names {
 	margin-left: 70%;
+}
+
+#whole {
+	min-height: 1000px;
+}
+
+
+button.detected, input[type=button].detected, input[type=submit].detected {
+	border-color: MediumSpringGreen;
 }

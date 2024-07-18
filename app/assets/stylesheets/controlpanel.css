@@ -1,0 +1,14 @@
+#controlpanel {
+    position:fixed;
+    bottom: 0;
+    left: 0;
+    background-color: lightcyan;
+    width: 100%;
+    min-height: 191px;
+    /* border-top: 1px solid ivory; */
+    padding: 5px;
+}
+
+.hidden {
+    display: none;
+}

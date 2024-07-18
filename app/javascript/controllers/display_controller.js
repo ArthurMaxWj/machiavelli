@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 	static targets = ["tcard", "dcard", "spot", "tcounter", "dcounter", "scounter", "detected", "cmdargs", "submit"]
 	static values = {tselected: Array, dselected: Array, sselected: Array}
-	static classes = ["cselected", "sselected"]
+	static classes = ["cselected", "sselected", "detected"]
 	
 	connect() {
 		this.clearAll()
@@ -79,12 +79,14 @@ export default class extends Controller {
   }
   
   	updateDetection() {
-		this.detectedTarget.innerHTML = this.cmdDetect().join(" ")
+		let cmd = this.cmdDetect()
+		this.detectedTarget.innerHTML = cmd.join(" ")
+		this.highlightDetected(cmd)
 	}
 	
 	updateCmdArgs() {
 		let v = this.constructCmdArgs()
-		console.log(v)
+
 		this.cmdargsTargets.forEach(function(t) {
 			t.value = v
 		})
@@ -112,6 +114,18 @@ export default class extends Controller {
 						)
 				}
 			} 
+		})
+	}
+
+	highlightDetected(cmd) {
+		let self = this
+		this.submitTargets.forEach(function(t) {
+			console.log(t, t.getAttribute('data-cmd') == cmd)
+			if (t.getAttribute('data-cmd') == cmd) {
+				t.classList.add(self.detectedClass)
+			} else {
+				t.classList.remove(self.detectedClass)
+			}
 		})
 	}
 

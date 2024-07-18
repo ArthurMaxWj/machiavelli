@@ -63,3 +63,8 @@ article {
 a.back-link {
    color: lime;
 }
+
+.navigation-significant-link {
+	color: lime;
+	text-decoration: underline;
+}
