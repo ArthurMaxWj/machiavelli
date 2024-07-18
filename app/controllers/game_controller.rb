@@ -120,6 +120,7 @@ class GameController < ApplicationController
 
   def ready_players
     @current_player = player_name(@board.data.player)
+    @player_turn = @board.data.player
     @player1 = player_name(:first_player)
     @player2 = player_name(:second_player)
   end

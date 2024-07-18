@@ -7,6 +7,7 @@ export default class extends Controller {
 	
 	connect() {
 		this.clearAll()
+		this.updateDetection()
 	}
 
 
@@ -47,7 +48,8 @@ export default class extends Controller {
 		
 		self.swapClassDcard(cardno)
 	})
-	this.dcounterTarget.innerHTML = v.length
+
+	this.dcounterTargets.forEach( t => t.innerHTML = v.length)
 	this.updateDetection()
 	this.updateCmdArgs()
   }
@@ -59,7 +61,8 @@ export default class extends Controller {
 
 		self.swapClassSpot(combno, spotno)
 	})
-	this.scounterTarget.innerHTML = v.length
+
+	this.scounterTargets.forEach( t => t.innerHTML = v.length)
 	this.updateDetection()
 	this.updateCmdArgs()
   }
@@ -71,7 +74,8 @@ export default class extends Controller {
 
 		self.swapClassTcard(combno, cardno)
 	})
-	this.tcounterTarget.innerHTML = v.length
+
+	this.tcounterTargets.forEach( t => t.innerHTML = v.length)
 	this.updateDetection()
 	this.updateCmdArgs()
 	
@@ -79,8 +83,12 @@ export default class extends Controller {
   }
   
   	updateDetection() {
+		let info = "[ None: Each command needs to satisfy requirements: (no. of table cards, no. of spots in  table, no. of deck cards); order of each matters ]"
 		let cmd = this.cmdDetect()
-		this.detectedTarget.innerHTML = cmd.join(" ")
+
+		let msg = cmd.join(" ")
+		this.detectedTarget.innerHTML = msg.length == 0 ? info : msg
+
 		this.highlightDetected(cmd)
 	}
 	
@@ -239,7 +247,7 @@ export default class extends Controller {
 		
 		let c = this.commands().filter( c => c.t == t && c.s == s && c.d == d)
 		
-		return c.length > 0 ? c.map( c => c.identifier) : ["?"]
+		return c.length > 0 ? c.map( c => c.identifier) : [""]
 	}
 
 	commands() {

@@ -1,7 +1,6 @@
-
-
 #display {
-	margin: 10px;	
+	margin: 10px;
+	margin-top: 0;
 }
 
 #display .card {
@@ -46,6 +45,7 @@ button, input[type=button], input[type=submit] {
 	padding: 2px;
 	border: 3px solid deepskyblue;
 	border-radius: 10px;
+	cursor: pointer;
 }
 
 #display input[type=text] {
@@ -83,14 +83,43 @@ button, input[type=button], input[type=submit] {
 }
 
 #player-names {
-	margin-left: 70%;
+	margin-left: auto;
+	margin-right: 0;
+	margin-top: 10px; /* because of sticky element #counter and to match #display's margin */
 }
 
 #whole {
-	min-height: 1000px;
+	min-height: 800px;
 }
 
 
 button.detected, input[type=button].detected, input[type=submit].detected {
 	border-color: MediumSpringGreen;
+}
+
+
+#counter {
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	border-radius: 0 0 20px 20px;
+	color: white;
+	width: 800px;
+	text-align: center;
+	margin: auto;
+	top: 0;
+	left: 0;
+	padding: 10px;
+}
+
+#counter.counter--first-player-turn {
+	background-color: DarkMagenta;
+}
+
+#counter.counter--second-player-turn {
+	background-color: deeppink;
+}
+
+#prompt-textbox {
+	width: 500px;
+	padding: 5px 5px 0 5px;
 }

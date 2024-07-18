@@ -3,6 +3,15 @@
 <div id="whole">
 <%= turbo_frame_tag "turbomain" do %>
 <div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected" data-display-detected-class="detected" id="display">
+	<div id="counter" class="counter--<%= @player_turn == :first_player ? "first-player" : "second-player" %>-turn">
+		<b><%= @current_player %></b>'s turn. Selected: 
+		table cards: <span data-display-target="tcounter">0</span>,
+		table spots: <span data-display-target="scounter">0</span>,
+		deck cards: <span data-display-target="dcounter">0</span> 
+		~ (<span data-display-target="tcounter">0</span>, <span data-display-target="scounter">0</span>, <span data-display-target="dcounter">0</span>)
+		<button data-action="display#clearAll">Clear all</button>
+	</div>
+
 	<div id="player-names">
 		<form action="/edit-names">
 			<input name="fplayer" type="text"  value="<%= @player1 %>" /> vs
@@ -10,7 +19,6 @@
 			<input type="submit" value="Rename" />
 		</form>
 		</div>
-	<h3> Move of player: <%= @current_player %>
 	<div  id="table">
 		<% @table.each_with_index do |comb, comb_idx| %>
 			<div class="comb">
@@ -75,20 +83,11 @@
 					</div>
 		<% end %>
 	</div>
+
 	
-	<div class="counter">
-		Table cards: <span data-display-target="tcounter">0</span>
-		Table spots: <span data-display-target="scounter">0</span>
-		Deck cards: <span data-display-target="dcounter">0</span>
-		<button data-action="display#clearAll">Clear all</button>
-	</div>
-	<br/>
-	<div>
-		<span> Detected command: <b><span data-display-target="detected">?</span></span>
-	</div>
 	<br/>
 	<div id="controlpanel" data-controller="controlpanel" data-controlpanel-hidden-class="hidden">
-		<div class="tabs">
+		<div id="tabs">
 			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
 			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
 		</div>
@@ -121,22 +120,29 @@
 				
 			
 			<br/><br/>
+
+			<div class="explanation-info">
+				<span> Detected command: <b><span data-display-target="detected"></span></span>
+			</div>
 		</div>
 
 		<div data-controlpanel-target="prompt">
 			Current move prompt: 
 			<form action="/edit-prompt" style="display: inline">
-				<input name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />
-				<input type="submit" value="Edit" />
+				<input id="prompt-textbox" name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />
+				<input type="submit" value="Update" />
 			</form>
 			<br/>
+			<form action="/back-try-move" style="display: inline">
+				<input type="submit" value="Delete last move" />
+			</form>
+
 			<form action="/clear-try-move" style="display: inline">
-				<input type="submit" value="Clear" />
+				<input type="submit" value="Clear ALL moves" />
 			</form>
 			
-			<form action="/back-try-move" style="display: inline">
-				<input type="submit" value="Back" />
-			</form>
+			<br /><br />
+			<span class="explanation-info">Use prompt to edit/delete your already used commands.</span>
 		</div>
 	</div>
 
@@ -164,7 +170,6 @@
 </div>
 
 </footer>
-<%= link_to 'About', about_path, class: "infolink" %>
 <div id="copy"> Machiavelli &copy; A. M. Wójcik 2024-present</div>
 </footer>
 <% end %>

@@ -2,13 +2,16 @@
     position:fixed;
     bottom: 0;
     left: 0;
-    background-color: lightcyan;
+    background-color: rgba(224, 255, 255, 180);
     width: 100%;
     min-height: 191px;
-    /* border-top: 1px solid ivory; */
-    padding: 5px;
+    padding: 10px;
 }
 
 .hidden {
     display: none;
+}
+
+#tabs {
+    margin-bottom: 5px;
 }

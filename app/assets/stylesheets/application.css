@@ -68,3 +68,11 @@ a.back-link {
 	color: lime;
 	text-decoration: underline;
 }
+
+.explanation-info {
+	color: gray;
+	font-size: 0.6em;
+}
+#copy {
+	padding-top: 200px;
+}
