@@ -61,6 +61,7 @@ module Transformations
     end
 
     def work_with_valid_move(success, resultant_data)
+      resultant_data[:table] = resultant_data[:table].filter { |comb| comb.present? }
       check_table(resultant_data[:table]) => {ok:, error:}
       @try_mode_err_covered ||= !ok
       e(error) unless ok

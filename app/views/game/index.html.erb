@@ -2,7 +2,17 @@
 
 <div id="whole">
 <%= turbo_frame_tag "turbomain" do %>
-<div data-controller="display" data-display-cselected-class="card--selected" data-display-sselected-class="spot--selected" data-display-detected-class="detected" id="display">
+<div data-controller="display"
+	data-display-cselected-class="card--selected"
+	data-display-sselected-class="spot--selected"
+	data-display-detected-class="detected"
+	id="display"
+	data-display-decksize-value="<%= @deck.size %>"
+	
+	data-action="keydown.n->display#nCalled keydown.m->display#mCalled keydown.p->display#pCalled keydown.b->display#bCalled"
+	tabindex="0"
+>
+<!--  -->
 	<div id="counter" class="counter--<%= @player_turn == :first_player ? "first-player" : "second-player" %>-turn">
 		<b><%= @current_player %></b>'s turn. Selected: 
 		table cards: <span data-display-target="tcounter">0</span>,
@@ -12,13 +22,33 @@
 		<button data-action="display#clearAll">Clear all</button>
 	</div>
 
-	<div id="player-names">
-		<form action="/edit-names">
+	<div id="player-names" class="to-right">
+		<form action="/edit-names" class="clear-to-right">
 			<input name="fplayer" type="text"  value="<%= @player1 %>" /> vs
 			<input name="splayer" type="text"  value="<%= @player2 %>" />
 			<input type="submit" value="Rename" />
 		</form>
+	</div>
+
+	<h3 class="title-with-bar"><%= @current_player %></b>'s deck:</h3>
+	<div id="deck">
+		<div id="deck-box" data-display-target="deckbox"> <!-- for blocking y-scroll -->
+		<% @deck.each_with_index do |card, card_idx| %>
+				<div 
+					data-display-target="dcard"
+					data-action="click->display#selectDeckCard" 
+					data-display-cardno-param="<%= card_idx %>"
+					data-cardno="<%= card_idx %>"
+					data-rep="<%= card %>"
+					class="card"
+					>
+						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+					</div>
+		<% end %>
 		</div>
+	</div>
+
+	<h3 class="title-with-bar">Table (all combinations):</h3>
 	<div  id="table">
 		<% @table.each_with_index do |comb, comb_idx| %>
 			<div class="comb">
@@ -47,9 +77,8 @@
 					>
 						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
 					</div>
-				<% end %>
-				
-				
+				<% end %>		
+
 				<!-- we add one after all cards -->
 				<span 
 					data-display-target="spot"
@@ -65,31 +94,19 @@
 				
 			</div>
 		<% end %>
-		
+
+		<span class="explanation-info">
+			<%= @table.empty? ? "No combinations yet. Use command 'n/new_combination' to add combiantions. If no cards can form valid combiantion use 'draw'." : "" %>
+		</span>
 	</div>
 	<div></div><br/>
-	
-	<div id="deck">
-		<% @deck.each_with_index do |card, card_idx| %>
-				<div 
-					data-display-target="dcard"
-					data-action="click->display#selectDeckCard" 
-					data-display-cardno-param="<%= card_idx %>"
-					data-cardno="<%= card_idx %>"
-					data-rep="<%= card %>"
-					class="card"
-					>
-						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
-					</div>
-		<% end %>
-	</div>
 
 	
 	<br/>
 	<div id="controlpanel" data-controller="controlpanel" data-controlpanel-hidden-class="hidden">
 		<div id="tabs">
-			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
-			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
+			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
+			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
 		</div>
 		<div data-controlpanel-target="commands">
 			Commands: 
@@ -122,7 +139,7 @@
 			<br/><br/>
 
 			<div class="explanation-info">
-				<span> Detected command: <b><span data-display-target="detected"></span></span>
+				<span> Detected command: <b><span data-display-target="detected"></b></span></span>
 			</div>
 		</div>
 

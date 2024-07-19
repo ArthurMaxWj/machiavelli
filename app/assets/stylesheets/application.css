@@ -73,6 +73,13 @@ a.back-link {
 	color: gray;
 	font-size: 0.6em;
 }
+
 #copy {
 	padding-top: 200px;
+}
+
+h3.title-with-bar::after {
+  display: block;
+  border-top: 1px solid darkgray;
+  content: '';
 }

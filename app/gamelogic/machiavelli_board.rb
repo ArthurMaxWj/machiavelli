@@ -36,13 +36,13 @@ class MachiavelliBoard
   def make_move(move_str, should_swich_player: true)
     return @data.move_status unless process_move(move_str)
 
-    check_win # add perform check?
+    check_win 
     @data.switch_player if should_swich_player
     @data.move_status
   end
 
   def try_move(move_str)
-    d = data.deep_duplicate
+    d = @data.deep_duplicate
 
     err =  handle(:move_validation, move_str, true) ? nil : 'At least one action required'
 

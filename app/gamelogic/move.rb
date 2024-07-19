@@ -175,9 +175,9 @@ class Possesing
     end
   end
 
-  def posseses?(com_cards: [], com_place: nil, deck_cards: [], min_cards: 1)
+  def posseses?(com_cards: [], com_place: nil, deck_cards: [], min_cards: 1, min_what: "deck")
     if com_cards.size != min_cards && deck_cards.size != min_cards
-      @error = "Requires #{min_cards} cards"
+      @error = "Requires #{min_cards} #{ min_what } cards"
       return false
     end
 

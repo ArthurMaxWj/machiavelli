@@ -49,7 +49,7 @@ module Executors
     end
 
     def requirements
-      { com_cards: origin, com_place: destination }
+      { com_cards: origin, com_place: destination, min_cards: 1, min_what: "table" }
     end
 
     def perform
