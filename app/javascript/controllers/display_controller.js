@@ -12,6 +12,7 @@ export default class extends Controller {
     "cmdargs",
     "submit",
     "deckbox",
+    "spin"
   ];
   static values = {
     tselected: Array,
@@ -19,7 +20,7 @@ export default class extends Controller {
     sselected: Array,
     decksize: Number,
   };
-  static classes = ["cselected", "sselected", "detected"];
+  static classes = ["cselected", "sselected", "detected", "spin"];
 
   connect() {
     this.clearAll();
@@ -57,6 +58,15 @@ export default class extends Controller {
     this.callCommandByLetter("b");
   }
 
+  // MOUSE EVENTS:
+
+  spin() {
+    this.spinTarget.classList.add(this.spinClass)
+  }
+
+  nospin() {
+    this.spinTarget.classList.remove(this.spinClass)
+  }
 
   // SELECTING EVENTS:
 

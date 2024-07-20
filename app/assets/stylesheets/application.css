@@ -83,3 +83,11 @@ h3.title-with-bar::after {
   border-top: 1px solid darkgray;
   content: '';
 }
+
+
+button.submit-dangerous, input[type=button].submit-dangerous,
+input[type=submit].submit-dangerous {
+	background-color: red;
+	color: white;
+	border-color: red;
+}

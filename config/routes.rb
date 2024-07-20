@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   root 'game#index'
   get '/restart', to: 'game#restart'
+  get '/restart-game', to: 'game#restart_game'
   get '/index', to: 'game#index'
   get '/try-move', to: 'game#tryv_move'
   get '/edit-prompt', to: 'game#edit_prompt'

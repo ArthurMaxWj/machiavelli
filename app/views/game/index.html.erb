@@ -6,20 +6,20 @@
 	data-display-cselected-class="card--selected"
 	data-display-sselected-class="spot--selected"
 	data-display-detected-class="detected"
+	data-display-spin-class="fa-spin"
 	id="display"
 	data-display-decksize-value="<%= @deck.size %>"
 	
 	data-action="keydown.n->display#nCalled keydown.m->display#mCalled keydown.p->display#pCalled keydown.b->display#bCalled"
 	tabindex="0"
 >
-<!--  -->
 	<div id="counter" class="counter--<%= @player_turn == :first_player ? "first-player" : "second-player" %>-turn">
 		<b><%= @current_player %></b>'s turn. Selected: 
 		table cards: <span data-display-target="tcounter">0</span>,
 		table spots: <span data-display-target="scounter">0</span>,
 		deck cards: <span data-display-target="dcounter">0</span> 
 		~ (<span data-display-target="tcounter">0</span>, <span data-display-target="scounter">0</span>, <span data-display-target="dcounter">0</span>)
-		<button data-action="display#clearAll">Clear all</button>
+		<i data-action="click->display#clearAll mouseover->display#spin mouseout->display#nospin" data-display-target="spin" id="clear-all" title="Clear all" class="fa fa-refresh"></i>
 	</div>
 
 	<div id="player-names" class="to-right">
@@ -179,11 +179,6 @@
 	<% if @who_cheated.present? %>
 		<div>User cheated: <%= @who_cheated %></div>
 	<% end %>
-
-	<form action="/restart">
-		<input type="hidden" name="restartall" value="no" />
-		<input type="submit" value="Restart Game" />
-	</form>
 </div>
 
 </footer>

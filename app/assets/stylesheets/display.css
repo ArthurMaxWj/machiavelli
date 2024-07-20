@@ -140,3 +140,8 @@ button.detected, input[type=button].detected, input[type=submit].detected {
 #deck #deck-box {
 	height: 188px;
 }
+
+
+#clear-all {
+	cursor: pointer;
+}

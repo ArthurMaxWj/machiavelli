@@ -1,0 +1,21 @@
+<%= render 'top' %>
+
+<%= turbo_frame_tag "turbomain" do %>
+<article >
+
+	<section class="small-section">
+	<h3> Are u sure u want to restart game?</h3>
+	<p>All progress will be lost. Ale u sure?</p>
+
+	<form action="/restart">
+		<input type="hidden" name="namestoo" value="no" />
+		<input type="submit" class="submit-dangerous" value="Yes, restart game" />
+		<a href="/" class="navigation-significant-link" data-turbo="false">No, continue game</a>
+	</form>
+	</section>
+
+	<br/><br/>
+	<a href="/" class="navigation-significant-link" data-turbo="false">Back</a>
+
+</article>
+<% end %>

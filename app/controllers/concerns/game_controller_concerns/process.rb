@@ -44,8 +44,8 @@ module GameControllerConcerns
       s(:game_state, '')
       s(:preview, '')
       s(:who_cheated, '')
-      s(:fplayer, 'Alex') if params[:restartall] == 'yes'
-      s(:splayer, 'Max') if params[:restartall] == 'yes'
+      s(:fplayer, 'Alex') if params[:namestoo] == 'yes'
+      s(:splayer, 'Max') if params[:namestoo] == 'yes'
 
       go_home
     end
