@@ -1,0 +1,73 @@
+
+.minimalistic-command-btn {
+	display: none;
+}
+
+#menu #expand-menu {
+    display: none;
+}
+
+#menu #pages.hidden {
+	display: none;
+}
+
+#menu #expand-menu i {
+    display: block;
+	width: fit-content;
+    margin: auto;
+}
+
+
+@media screen and (max-width: 1320px) {
+	#counter #counter-longer {
+		display: none;
+	}
+
+	#counter {
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 590px) {
+	#counter #counter-longer {
+		display: none;
+	}
+
+	#counter {
+		width: 90%;
+		font-size: 50%;
+	}
+
+	img.card-img {
+		width: 59px;
+		height: 84px; 
+	}
+
+	#deck, #deck  #deck-box {
+		height: 100px;
+	}
+
+	#cp-commands .infolink, #cp-commands .explanation-info {
+		display: none;
+	}
+
+	#controlpanel {
+		min-height: 0;
+	}
+
+	#controlpanel .minimalistic-command-btn {
+		display: inline-block;
+	}
+
+	#controlpanel .expanded-command-btn {
+		display: none;
+	}
+
+    #menu #pages {
+        flex-direction: column;
+    }
+
+    #menu #expand-menu {
+        display: block;
+    }
+}

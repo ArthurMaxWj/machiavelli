@@ -39,22 +39,18 @@ export default class extends Controller {
 
 
   nCalled() {
-	console.log('n clicked')
     this.callCommandByLetter("n");
   }
 
   mCalled() {
-	console.log('m clicked')
     this.callCommandByLetter("m");
   }
 
   pCalled() {
-	console.log('p clicked')
     this.callCommandByLetter("p");
   }
 
   bCalled() {
-	console.log('b clicked')
     this.callCommandByLetter("b");
   }
 

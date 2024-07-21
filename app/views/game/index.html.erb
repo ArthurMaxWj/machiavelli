@@ -14,10 +14,10 @@
 	tabindex="0"
 >
 	<div id="counter" class="counter--<%= @player_turn == :first_player ? "first-player" : "second-player" %>-turn">
-		<b><%= @current_player %></b>'s turn. Selected: 
+		<b><%= @current_player %></b><span id="counter-longer">'s turn. Selected: 
 		table cards: <span data-display-target="tcounter">0</span>,
 		table spots: <span data-display-target="scounter">0</span>,
-		deck cards: <span data-display-target="dcounter">0</span> 
+		deck cards: <span data-display-target="dcounter">0</span></span>
 		~ (<span data-display-target="tcounter">0</span>, <span data-display-target="scounter">0</span>, <span data-display-target="dcounter">0</span>)
 		<i data-action="click->display#clearAll mouseover->display#spin mouseout->display#nospin" data-display-target="spin" id="clear-all" title="Clear all" class="fa fa-refresh"></i>
 	</div>
@@ -42,7 +42,7 @@
 					data-rep="<%= card %>"
 					class="card"
 					>
-						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+						<img class="card-img" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
 					</div>
 		<% end %>
 		</div>
@@ -75,7 +75,7 @@
 					data-rep="<%= card %>"
 					class="card"
 					>
-						<img width="117" height="167" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+						<img class="card-img" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
 					</div>
 				<% end %>		
 
@@ -108,13 +108,14 @@
 			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
 			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
 		</div>
-		<div data-controlpanel-target="commands">
+		<div id="cp-commands" data-controlpanel-target="commands">
 			Commands: 
 			<% command_list.each do |comm| %>
 				<form action="/try-move" style="display: inline">
 				<input name="cmdname" type="hidden" value="<%= comm %>"/>
 				<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
-				<input type="submit" data-display-target="submit" data-cmd="<%= comm %>" value="<%= expand_command(comm) %>" />
+				<input type="submit" class="expanded-command-btn" data-display-target="submit" data-cmd="<%= comm %>" value="<%= expand_command(comm) %>" />
+				<input type="submit" class="minimalistic-command-btn" data-display-target="submit" data-cmd="<%= comm %>" value="<%= comm %>" />
 				</form>
 			<% end %> <%= link_to "Other commands", other_commands_info_path, class: "infolink small-infolink" %><br /> <br />
 				Ready? <form action="/execute" style="display: inline">
@@ -128,7 +129,8 @@
 				<% else %>
 					<form action="/skip" style="display: inline">
 					<input type="submit"  value="skip" />
-					</form> (note: no cards will be drawn since there are none left, but this can decrease your score at the end of game)
+					</form> 
+					<span id="cp-draw-note">(note: no cards will be drawn since there are none left, but this can decrease your score at the end of game)</span>
 					
 					<form action="/give-up" style="display: inline">
 					<input type="submit"  value="GIVE UP!" style="display: block; color: red; margin: 10px 0" />
@@ -143,7 +145,7 @@
 			</div>
 		</div>
 
-		<div data-controlpanel-target="prompt">
+		<div id="cp-prompt" data-controlpanel-target="prompt">
 			Current move prompt: 
 			<form action="/edit-prompt" style="display: inline">
 				<input id="prompt-textbox" name="prompt" type="text" placeholder="<empty>" value="<%= @cur_promt %>" />

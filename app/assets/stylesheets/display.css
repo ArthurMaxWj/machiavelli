@@ -110,7 +110,7 @@ button.detected, input[type=button].detected, input[type=submit].detected {
 	position: sticky;
 	border-radius: 0 0 20px 20px;
 	color: white;
-	width: 800px;
+	width: 55%;
 	text-align: center;
 	margin: auto;
 	top: 0;
@@ -144,4 +144,9 @@ button.detected, input[type=button].detected, input[type=submit].detected {
 
 #clear-all {
 	cursor: pointer;
+}
+
+img.card-img {
+	width: 117px;
+	height: 167px; 
 }

@@ -3,11 +3,15 @@
 	<a href="/"><div id="logo" class="unifrakturcook-bold">Machiavelli</div></a>
 </header>
 
-<nav id="menu">
-	<div id="pages">
+<nav id="menu" data-controller="mainmenu" data-mainmenu-hidden-class="hidden">
+	<div id="expand-menu" data-action="click->mainmenu#toggle" ><i class="fa fa-solid fa-bars"></i></div>
+	<div id="pages" data-mainmenu-target="pages">
+		<a href="/" class="menu-item">Home</a>
+		<a href="/how-to" class="menu-item">Getting Started</a>
 		<a href="/roles" class="menu-item">Roles</a>
 		<a href="/about" class="menu-item">About</a>
 		<a href="/restart-game" class="menu-item">Restart</a>
+		<a href="/other-commands-info" class="menu-item">Cmd</a>
 	</div>
 </nav>
 </div>
