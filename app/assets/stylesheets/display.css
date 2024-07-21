@@ -150,3 +150,32 @@ img.card-img {
 	width: 117px;
 	height: 167px; 
 }
+
+
+#swiftscroll {
+	position: absolute;
+	top: -30px;
+	right: 20px;
+}
+
+#swiftscroll .scroll-ball {
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	margin: 2px;
+	cursor: pointer;
+}
+
+#swiftscroll .scroll-ball i {
+	display: block;
+	width: -moz-fit-content;
+	width: fit-content;
+    margin: auto
+}
+
+#swiftscroll .scroll-ball:hover {
+	background-color: #333;
+}

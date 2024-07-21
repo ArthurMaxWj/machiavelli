@@ -99,10 +99,10 @@
 			<%= @table.empty? ? "No combinations yet. Use command 'n/new_combination' to add combiantions. If no cards can form valid combiantion use 'draw'." : "" %>
 		</span>
 	</div>
-	<div></div><br/>
+	<div></div>
 
-	
-	<br/>
+
+
 	<div id="controlpanel" data-controller="controlpanel" data-controlpanel-hidden-class="hidden">
 		<div id="tabs">
 			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
@@ -163,6 +163,16 @@
 			<br /><br />
 			<span class="explanation-info">Use prompt to edit/delete your already used commands.</span>
 		</div>
+
+
+		
+		<div id="swiftscroll" data-controller="swiftscroll" data-swiftscroll-abovecontentid-value="above-content" data-swiftscroll-hidden-class="hidden">
+			<div data-swiftscroll-target="scrollballs">
+				<div class="scroll-ball" data-action="click->swiftscroll#goTop"><i class="fa fa-solid fa-chevron-up"></i></div>
+				<div class="scroll-ball" data-action="click->swiftscroll#goBot"><i class="fa fa-solid fa-chevron-down"></i></div>
+			</div>
+		</div>
+
 	</div>
 
 	

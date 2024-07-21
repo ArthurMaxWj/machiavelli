@@ -13,6 +13,7 @@
 
 #menu #expand-menu i {
     display: block;
+	width: -moz-fit-content;
 	width: fit-content;
     margin: auto;
 }
