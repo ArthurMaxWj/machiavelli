@@ -125,6 +125,7 @@ class GameController < ApplicationController
     @player_turn = @board.data.player
     @player1 = player_name(:first_player)
     @player2 = player_name(:second_player)
+    @cheater = player_name(session[:who_cheated])
   end
 
   def front_table

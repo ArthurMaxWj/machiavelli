@@ -205,3 +205,23 @@ img.card-img {
 }
 
 
+.selection-level-1, #display .card.card--selected.selection-level-1, #display .spot.spot--selected.selection-level-1 {
+	border-color: deepskyblue;
+	color: deepskyblue;
+}
+
+.selection-level-2, #display .card.card--selected.selection-level-2, #display .spot.spot--selected.selection-level-2 {
+	border-color: blue;
+	color: blue;
+}
+
+
+.selection-level-3, #display .card.card--selected.selection-level-3, #display .spot.spot--selected.selection-level-3  {
+	border-color: darkblue;
+	color: darkblue;
+}
+
+.selection-level-outofbounds, #display .card.card--selected.selection-level-outofbounds, #display .spot.spot--selected.selection-level-outofbounds {
+	border-color: red;
+	color: red;
+}

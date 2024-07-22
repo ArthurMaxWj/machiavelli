@@ -95,13 +95,23 @@ export default class extends Controller {
 
   // UPDATING UI EVENTS:
 
+  clearAllOf(spotsOrCards) {
+    let cls = [this.sselectedClass, this.cselectedClass, 
+              this.selectionLevel(0), this.selectionLevel(1), this.selectionLevel(2), 
+              this.selectionLevel(3) // out of bounds
+    ] 
+    spotsOrCards.forEach( (sc) => cls.forEach( (cl) => sc.classList.remove(cl)))
+  }
 
   dselectedValueChanged(v) {
-    let self = this
-    this.dcardTargets.forEach(function (card) {
-      let { cardno } = card.dataset
-
-      self.swapClassDcard(cardno)
+    this.clearAllOf(this.dcardTargets)
+    let sel = this.dselectedValue.map((v) => {
+      let {cardno} = v
+      return this.dcardBy(cardno)
+    })
+  
+    sel.forEach((card, idx) => {
+      this.swapClassDcard(card, idx)
     })
 
     this.dcounterTargets.forEach((t) => (t.innerHTML = v.length))
@@ -110,11 +120,15 @@ export default class extends Controller {
   }
 
   sselectedValueChanged(v) {
-    let self = this
-    this.spotTargets.forEach(function (spot) {
-      let { combno, spotno } = spot.dataset
+    this.clearAllOf(this.spotTargets)
 
-      self.swapClassSpot(combno, spotno)
+    let sel = this.sselectedValue.map((v) => {
+      let {combno, spotno} = v
+      return this.spotBy(combno, spotno)
+    })
+
+    sel.forEach((spot, idx) => {
+      this.swapClassSpot(spot, idx)
     })
 
     this.scounterTargets.forEach((t) => (t.innerHTML = v.length))
@@ -123,19 +137,21 @@ export default class extends Controller {
   }
 
   tselectedValueChanged(v) {
-    let self = this
-    this.tcardTargets.forEach(function (card) {
-      let { combno, cardno } = card.dataset
+    this.clearAllOf(this.tcardTargets)
+    let sel = this.tselectedValue.map((v) => {
+      let {combno, cardno} = v
+      return this.tcardBy(combno, cardno)
+    })
 
-      self.swapClassTcard(combno, cardno)
+    sel.forEach((card, idx) => {
+      this.swapClassTcard(card, idx)
     })
 
     this.tcounterTargets.forEach((t) => (t.innerHTML = v.length))
     this.updateDetection()
     this.updateCmdArgs()
-
-    this.updateSubmitRequiremnents()
   }
+
 
   decksizeValueChanged(v) {
     this.resizeDeckBox(v)
@@ -297,33 +313,27 @@ export default class extends Controller {
 
   // ----
 
-  swapClassTcard(combno, cardno) {
-    let selected = this.isSelectedTcard(combno, cardno)
-
-    if (!selected) {
-      this.tcardBy(combno, cardno).classList.remove(this.cselectedClass)
-    } else {
-      this.tcardBy(combno, cardno).classList.add(this.cselectedClass)
-    }
+  swapClassTcard(card, idx)  {
+    card.classList.add(this.cselectedClass)
+    card.classList.add(this.selectionLevel(idx))
   }
 
-  swapClassSpot(combno, spotno) {
-    let selected = this.isSelectedSpot(combno, spotno)
-
-    if (!selected) {
-      this.spotBy(combno, spotno).classList.remove(this.sselectedClass)
-    } else {
-      this.spotBy(combno, spotno).classList.add(this.sselectedClass)
-    }
+  swapClassSpot(spot, idx) {
+    spot.classList.add(this.sselectedClass)
+    spot.classList.add(this.selectionLevel(idx))
   }
 
-  swapClassDcard(cardno) {
-    let selected = this.isSelectedDcard(cardno)
+  swapClassDcard(card, idx) {
+    console.log(idx, this.cselectedClass, this.selectionLevel(idx))
+    card.classList.add(this.cselectedClass)
+    card.classList.add(this.selectionLevel(idx))
+  }
 
-    if (!selected) {
-      this.dcardBy(cardno).classList.remove(this.cselectedClass)
+  selectionLevel(num) {
+    if (num < 3) {
+      return `selection-level-${num + 1}`
     } else {
-      this.dcardBy(cardno).classList.add(this.cselectedClass)
+      return `selection-level-outofbounds`
     }
   }
 
