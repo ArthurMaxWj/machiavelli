@@ -36,7 +36,7 @@ class MachiavelliBoard
   def make_move(move_str, should_swich_player: true)
     return @data.move_status unless process_move(move_str)
 
-    check_win 
+    check_win
     @data.switch_player if should_swich_player
     @data.move_status
   end

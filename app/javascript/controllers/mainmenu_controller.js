@@ -6,6 +6,7 @@ export default class extends Controller {
   static classes = ["hidden"];
 
   connect() {
+    /* hides but it doesnt affect big screen version because of usage of 'hidden-on-small' class */
     this.hide()
     this.expandedValue = false
   }

@@ -7,8 +7,8 @@
     display: none;
 }
 
-#menu #pages.hidden {
-	display: none;
+#menu #pages.hidden-on-small {
+	display: block;
 }
 
 #menu #expand-menu i {
@@ -71,4 +71,8 @@
     #menu #expand-menu {
         display: block;
     }
+
+	#menu #pages.hidden-on-small {
+		display: none;
+	}
 }

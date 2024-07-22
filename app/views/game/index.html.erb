@@ -107,6 +107,9 @@
 		<div id="tabs">
 			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
 			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
+			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="infoerrorsTabbtn" data-controlpanel-name-param="infoerrors">
+				<span class="color-level-<%= @infoerror_highest %>">Info/Errors</span>
+			</a>
 		</div>
 		<div id="cp-commands" data-controlpanel-target="commands">
 			Commands: 
@@ -164,6 +167,15 @@
 			<span class="explanation-info">Use prompt to edit/delete your already used commands.</span>
 		</div>
 
+		<div id="cp-infoerrors" data-controlpanel-target="infoerrors">
+			<div style="color: gray" ><%= flash[:helper].present? ? "Helper command response: #{flash[:helper]}" : "" %></div>
+			<br/> 
+			<div class="color-level-4"> <%= flash[:error].present? ? "Error: #{flash[:error]}" : "" %></div>
+			<div class="color-level-2" data-display-target="requirementserror"></div>
+			<div class="color-level-3"> <%= flash[:warning].present? ? "Warning: #{flash[:warning]}" : "" %></div>
+			<div class="color-level-1" ><%= flash[:cheated].present? ? "User cheated: #{flash[:cheated]}" : "" %></div>
+		</div>
+
 
 		
 		<div id="swiftscroll" data-controller="swiftscroll" data-swiftscroll-abovecontentid-value="above-content" data-swiftscroll-hidden-class="hidden">
@@ -174,23 +186,6 @@
 		</div>
 
 	</div>
-
-	
-	<br/>
-	<div style="color: gray" ><%= flash[:helper] %></div>
-	<br/> <br/> <br/>
-	<div style="color: red"> <%= flash[:error].present? ? "Error: #{flash[:error]}" : "" %></div>
-	<div style="color: purple"> <%= flash[:warning].present? ? "Warning: #{flash[:warning]}" : "" %></div>
-	<div style="color: yelllow" data-display-target="requirementserror"></div>
-	<div style="color: maroon" ><%= flash[:cheated] %></div>
-	
-	<% if @helper_out.present? %>
-		<div>Helpful info: <%= @helper_out %></div>
-	<% end %>
-	
-	<% if @who_cheated.present? %>
-		<div>User cheated: <%= @who_cheated %></div>
-	<% end %>
 </div>
 
 </footer>

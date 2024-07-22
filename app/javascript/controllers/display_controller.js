@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [
@@ -13,25 +13,26 @@ export default class extends Controller {
     "submit",
     "deckbox",
     "spin"
-  ];
+  ]
   static values = {
     tselected: Array,
     dselected: Array,
     sselected: Array,
     decksize: Number,
-  };
-  static classes = ["cselected", "sselected", "detected", "spin"];
+  }
+  static classes = ["cselected", "sselected", "detected", "spin"]
 
   connect() {
-    this.clearAll();
-    this.updateDetection();
-    this.resizeDeckBox(this.decksizeValue);
+    this.clearAll()
+    this.updateDetection()
+    this.resizeDeckBox(this.decksizeValue)
   }
 
+  /* used to block y-scroll, makes deck look better */
   resizeDeckBox(dsize) {
-    let cardWidth = 141;
-    let boxWidth = cardWidth * dsize;
-    this.deckboxTarget.style.width = boxWidth + "px";
+    let cardWidth = 147
+    let boxWidth = cardWidth * dsize
+    this.deckboxTarget.style.width = boxWidth + "px"
   }
 
 
@@ -39,19 +40,19 @@ export default class extends Controller {
 
 
   nCalled() {
-    this.callCommandByLetter("n");
+    this.callCommandByLetter("n")
   }
 
   mCalled() {
-    this.callCommandByLetter("m");
+    this.callCommandByLetter("m")
   }
 
   pCalled() {
-    this.callCommandByLetter("p");
+    this.callCommandByLetter("p")
   }
 
   bCalled() {
-    this.callCommandByLetter("b");
+    this.callCommandByLetter("b")
   }
 
   // MOUSE EVENTS:
@@ -68,27 +69,27 @@ export default class extends Controller {
 
 
   selectTableCard(event) {
-    let { combno, cardno } = event.params;
+    let { combno, cardno } = event.params
 
-    this.swapSelectionTcard(combno, cardno);
+    this.swapSelectionTcard(combno, cardno)
   }
 
   selectSpot(event) {
-    let { combno, spotno } = event.params;
+    let { combno, spotno } = event.params
 
-    this.swapSelectionSpot(combno, spotno);
+    this.swapSelectionSpot(combno, spotno)
   }
 
   selectDeckCard(event) {
-    let { cardno } = event.params;
+    let { cardno } = event.params
 
-    this.swapSelectionDcard(cardno);
+    this.swapSelectionDcard(cardno)
   }
 
   clearAll() {
-    this.tselectedValue = [];
-    this.sselectedValue = [];
-    this.dselectedValue = [];
+    this.tselectedValue = []
+    this.sselectedValue = []
+    this.dselectedValue = []
   }
 
 
@@ -96,96 +97,96 @@ export default class extends Controller {
 
 
   dselectedValueChanged(v) {
-    let self = this;
+    let self = this
     this.dcardTargets.forEach(function (card) {
-      let { cardno } = card.dataset;
+      let { cardno } = card.dataset
 
-      self.swapClassDcard(cardno);
-    });
+      self.swapClassDcard(cardno)
+    })
 
-    this.dcounterTargets.forEach((t) => (t.innerHTML = v.length));
-    this.updateDetection();
-    this.updateCmdArgs();
+    this.dcounterTargets.forEach((t) => (t.innerHTML = v.length))
+    this.updateDetection()
+    this.updateCmdArgs()
   }
 
   sselectedValueChanged(v) {
-    let self = this;
+    let self = this
     this.spotTargets.forEach(function (spot) {
-      let { combno, spotno } = spot.dataset;
+      let { combno, spotno } = spot.dataset
 
-      self.swapClassSpot(combno, spotno);
-    });
+      self.swapClassSpot(combno, spotno)
+    })
 
-    this.scounterTargets.forEach((t) => (t.innerHTML = v.length));
-    this.updateDetection();
-    this.updateCmdArgs();
+    this.scounterTargets.forEach((t) => (t.innerHTML = v.length))
+    this.updateDetection()
+    this.updateCmdArgs()
   }
 
   tselectedValueChanged(v) {
-    let self = this;
+    let self = this
     this.tcardTargets.forEach(function (card) {
-      let { combno, cardno } = card.dataset;
+      let { combno, cardno } = card.dataset
 
-      self.swapClassTcard(combno, cardno);
-    });
+      self.swapClassTcard(combno, cardno)
+    })
 
-    this.tcounterTargets.forEach((t) => (t.innerHTML = v.length));
-    this.updateDetection();
-    this.updateCmdArgs();
+    this.tcounterTargets.forEach((t) => (t.innerHTML = v.length))
+    this.updateDetection()
+    this.updateCmdArgs()
 
-    this.updateSubmitRequiremnents();
+    this.updateSubmitRequiremnents()
   }
 
   decksizeValueChanged(v) {
-    this.resizeDeckBox(v);
+    this.resizeDeckBox(v)
   }
 
   updateDetection() {
     let info =
-      "[ None: Each command needs to satisfy requirements: (no. of table cards, no. of spots in  table, no. of deck cards); order of each matters ]";
-    let cmd = this.cmdDetect();
+      "[ None: Each command needs to satisfy requirements: (no. of table cards, no. of spots in  table, no. of deck cards) order of each matters ]"
+    let cmd = this.cmdDetect()
 
-    let msg = cmd.join(" ");
-    this.detectedTarget.innerHTML = msg.length == 0 ? info : msg;
+    let msg = cmd.join(" ")
+    this.detectedTarget.innerHTML = msg.length == 0 ? info : msg
 
-    this.highlightDetected(cmd);
+    this.highlightDetected(cmd)
   }
 
   updateCmdArgs() {
-    let v = this.constructCmdArgs();
+    let v = this.constructCmdArgs()
 
     this.cmdargsTargets.forEach(function (t) {
-      t.value = v;
-    });
+      t.value = v
+    })
   }
 
   constructCmdArgs() {
     let ds = this.dselectedValue.map((card) => ({
       combno: 0,
       cardno: card.cardno,
-    }));
+    }))
     let leftSide = this.tselectedValue
       .concat(ds)
       .map((card) => card.combno + "-" + card.cardno)
-      .join(",");
+      .join(",")
     let rightSide = this.sselectedValue
       .map((spot) => spot.combno + "-" + spot.spotno)
-      .join(",");
+      .join(",")
 
     return (
       (leftSide == "" ? "_" : leftSide) +
       ":" +
       (rightSide == "" ? "_" : rightSide)
-    );
+    )
   }
 
   updateSubmitRequiremnents() {
-    let self = this;
+    let self = this
     this.submitTargets.forEach(function (t) {
-      let r = self.requirementsOf(t.value);
+      let r = self.requirementsOf(t.value)
       t.onclick = function (e) {
         if (!self.cmdDetect().includes(t.getAttribute("data-cmd"))) {
-          e.preventDefault();
+          e.preventDefault()
           self.requirementserrorTarget.innerHtml =
             "Requirements not met for comand" +
             t.value +
@@ -195,21 +196,21 @@ export default class extends Controller {
             r.t +
             " table cards, " +
             r.s +
-            " table spots";
+            " table spots"
         }
-      };
-    });
+      }
+    })
   }
 
   highlightDetected(cmd) {
-    let self = this;
+    let self = this
     this.submitTargets.forEach(function (t) {
       if (t.getAttribute("data-cmd") == cmd) {
-        t.classList.add(self.detectedClass);
+        t.classList.add(self.detectedClass)
       } else {
-        t.classList.remove(self.detectedClass);
+        t.classList.remove(self.detectedClass)
       }
-    });
+    })
   }
 
 
@@ -219,17 +220,17 @@ export default class extends Controller {
   isSelectedTcard(combno, cardno) {
     return this.tselectedValue.some(
       (e) => e.combno == combno && e.cardno == cardno
-    );
+    )
   }
 
   isSelectedSpot(combno, spotno) {
     return this.sselectedValue.some(
       (e) => e.combno == combno && e.spotno == spotno
-    );
+    )
   }
 
   isSelectedDcard(cardno) {
-    return this.dselectedValue.some((e) => e.cardno == cardno);
+    return this.dselectedValue.some((e) => e.cardno == cardno)
   }
 
   // ----
@@ -238,91 +239,91 @@ export default class extends Controller {
     return this.tcardTargets.find(
       (target) =>
         target.dataset.combno == combno && target.dataset.cardno == cardno
-    );
+    )
   }
 
   spotBy(combno, spotno) {
     return this.spotTargets.find(
       (target) =>
         target.dataset.combno == combno && target.dataset.spotno == spotno
-    );
+    )
   }
 
   dcardBy(cardno) {
-    return this.dcardTargets.find((target) => target.dataset.cardno == cardno);
+    return this.dcardTargets.find((target) => target.dataset.cardno == cardno)
   }
 
   // ----
 
   swapSelectionTcard(combno, cardno) {
-    let selected = this.isSelectedTcard(combno, cardno);
+    let selected = this.isSelectedTcard(combno, cardno)
 
     if (selected) {
       this.tselectedValue = this.tselectedValue.filter(function (e) {
-        return !(e.combno == combno && e.cardno == cardno);
-      });
+        return !(e.combno == combno && e.cardno == cardno)
+      })
     } else {
       this.tselectedValue = this.tselectedValue.concat([
         { combno: combno, cardno: cardno },
-      ]);
+      ])
     }
   }
 
   swapSelectionSpot(combno, spotno) {
-    let selected = this.isSelectedSpot(combno, spotno);
+    let selected = this.isSelectedSpot(combno, spotno)
 
     if (selected) {
       this.sselectedValue = this.sselectedValue.filter(
         (e) => !(e.combno == combno && e.spotno == spotno)
-      );
+      )
     } else {
       this.sselectedValue = this.sselectedValue.concat([
         { combno: combno, spotno: spotno },
-      ]);
+      ])
     }
   }
 
   swapSelectionDcard(cardno) {
-    let selected = this.isSelectedDcard(cardno);
+    let selected = this.isSelectedDcard(cardno)
 
     if (selected) {
       this.dselectedValue = this.dselectedValue.filter(
         (e) => e.cardno != cardno
-      );
+      )
     } else {
-      this.dselectedValue = this.dselectedValue.concat([{ cardno: cardno }]);
+      this.dselectedValue = this.dselectedValue.concat([{ cardno: cardno }])
     }
   }
 
   // ----
 
   swapClassTcard(combno, cardno) {
-    let selected = this.isSelectedTcard(combno, cardno);
+    let selected = this.isSelectedTcard(combno, cardno)
 
     if (!selected) {
-      this.tcardBy(combno, cardno).classList.remove(this.cselectedClass);
+      this.tcardBy(combno, cardno).classList.remove(this.cselectedClass)
     } else {
-      this.tcardBy(combno, cardno).classList.add(this.cselectedClass);
+      this.tcardBy(combno, cardno).classList.add(this.cselectedClass)
     }
   }
 
   swapClassSpot(combno, spotno) {
-    let selected = this.isSelectedSpot(combno, spotno);
+    let selected = this.isSelectedSpot(combno, spotno)
 
     if (!selected) {
-      this.spotBy(combno, spotno).classList.remove(this.sselectedClass);
+      this.spotBy(combno, spotno).classList.remove(this.sselectedClass)
     } else {
-      this.spotBy(combno, spotno).classList.add(this.sselectedClass);
+      this.spotBy(combno, spotno).classList.add(this.sselectedClass)
     }
   }
 
   swapClassDcard(cardno) {
-    let selected = this.isSelectedDcard(cardno);
+    let selected = this.isSelectedDcard(cardno)
 
     if (!selected) {
-      this.dcardBy(cardno).classList.remove(this.cselectedClass);
+      this.dcardBy(cardno).classList.remove(this.cselectedClass)
     } else {
-      this.dcardBy(cardno).classList.add(this.cselectedClass);
+      this.dcardBy(cardno).classList.add(this.cselectedClass)
     }
   }
 
@@ -331,13 +332,13 @@ export default class extends Controller {
 
 
   cmdDetect() {
-    let t = this.tselectedValue.length;
-    let s = this.sselectedValue.length;
-    let d = this.dselectedValue.length;
+    let t = this.tselectedValue.length
+    let s = this.sselectedValue.length
+    let d = this.dselectedValue.length
 
-    let c = this.commands().filter((c) => c.t == t && c.s == s && c.d == d);
+    let c = this.commands().filter((c) => c.t == t && c.s == s && c.d == d)
 
-    return c.length > 0 ? c.map((c) => c.identifier) : [""];
+    return c.length > 0 ? c.map((c) => c.identifier) : [""]
   }
 
   commands() {
@@ -346,18 +347,18 @@ export default class extends Controller {
       { t: 1, s: 1, d: 0, identifier: "m" },
       { t: 0, s: 1, d: 1, identifier: "p" },
       { t: 0, s: 1, d: 0, identifier: "b" },
-    ];
+    ]
   }
 
   requirementsOf(id) {
-    this.commands().find((c) => c.identifier == id);
+    this.commands().find((c) => c.identifier == id)
   }
 
   callCommandByLetter(letter) {
     this.submitTargets.forEach(function (t) {
       if (t.getAttribute("data-cmd") == letter) {
-        t.click();
+        t.click()
       }
-    });
+    })
   }
 }

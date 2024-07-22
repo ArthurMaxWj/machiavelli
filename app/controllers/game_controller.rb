@@ -10,6 +10,7 @@ require_relative '../extra_classes/game_controller_extra_classes/extra_commands'
 class GameController < ApplicationController
   include GameControllerConcerns::CommonGameBack
   include GameControllerConcerns::Process
+  include GameControllerConcerns::Coloring
 
   before_action :state_from_session
 
@@ -27,7 +28,7 @@ class GameController < ApplicationController
   def about; end
 
   def roles; end
-  
+
   def restart_game; end
 
   def other_commands_info; end
@@ -114,8 +115,7 @@ class GameController < ApplicationController
     @deck = front_deck
 
     @cur_promt = preview.move
-    @helper_out = flash[:helper_out]
-    @who_cheated = session[:who_cheated]
+    @infoerror_highest = infoerror_highest_level
 
     ready_players
   end

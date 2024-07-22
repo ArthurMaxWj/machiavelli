@@ -1,50 +1,51 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["commands", "prompt", "commandsTabbtn", "promptTabbtn"];
-  static values = { current: String };
-  static classes = ["hidden"];
+  static targets = ["commands", "prompt", "infoerrors", "commandsTabbtn", "promptTabbtn", "infoerrorsTabbtn"]
+  static values = { current: String }
+  static classes = ["hidden"]
 
   connect() {
-    this.paginate(this.commandsTarget, this.promptTabbtnTarget);
+    let [tab, btn] = this.byName("commands")
+    this.paginate(tab, btn)
   }
 
   switchTab(event) {
-    let { name } = event.params;
-    this.currentValue = name;
+    let { name } = event.params
+    this.currentValue = name
 
-    this.paginate(this.byName(name), this.oppositeTabbtnByName(name));
+    let [tab, btn] = this.byName(name)
+    this.paginate(tab, btn)
   }
 
   paginate(targetTab, targetTabbtn) {
-    this.hideAll();
-    targetTab.classList.remove(this.hiddenClass);
-    targetTabbtn.classList.remove(this.hiddenClass);
+    this.hideAllTabs()
+    this.showAllBtns()
+
+    targetTab.classList.remove(this.hiddenClass)
+    targetTabbtn.classList.add(this.hiddenClass)
   }
 
-  hideAll() {
-    this.commandsTarget.classList.add(this.hiddenClass);
-    this.promptTarget.classList.add(this.hiddenClass);
+  hideAllTabs() {
+    this.commandsTarget.classList.add(this.hiddenClass)
+    this.promptTarget.classList.add(this.hiddenClass)
+    this.infoerrorsTarget.classList.add(this.hiddenClass)
 
-    this.commandsTabbtnTarget.classList.add(this.hiddenClass);
-    this.promptTabbtnTarget.classList.add(this.hiddenClass);
+    
   }
 
-  byName(pageName) {
-    switch (pageName) {
-      case "commands":
-        return this.commandsTarget;
-      case "prompt":
-        return this.promptTarget;
+  showAllBtns() {
+    this.commandsTabbtnTarget.classList.remove(this.hiddenClass)
+    this.promptTabbtnTarget.classList.remove(this.hiddenClass)
+    this.infoerrorsTabbtnTarget.classList.remove(this.hiddenClass)
+  }
+
+  byName(name) {
+    let correspondences = {
+      "commands": [this.commandsTarget, this.commandsTabbtnTarget],
+      "prompt": [this.promptTarget, this.promptTabbtnTarget],
+      "infoerrors": [this.infoerrorsTarget, this.infoerrorsTabbtnTarget]
     }
-  }
-
-  oppositeTabbtnByName(pageName) {
-    switch (pageName) {
-      case "commands":
-        return this.promptTabbtnTarget;
-      case "prompt":
-        return this.commandsTabbtnTarget;
-    }
+    return correspondences[name]
   }
 }
