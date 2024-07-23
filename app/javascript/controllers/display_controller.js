@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import popup from "../popup"
 
 export default class extends Controller {
   static targets = [
@@ -172,6 +173,7 @@ export default class extends Controller {
         `Requires ${rq.d} deck cards, ${rq.t} table cards, ${rq.s} table spots`
       )
       this.tocoloronreqnotmetTarget.classList.add(this.reqerrcolorClass)
+      popup("Requirements not met, see Info/Error tab", "color-level-2") // from popup.js
     }
   }
 

@@ -1,13 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
+import popup from "../popup"
+
 
 export default class extends Controller {
-  static targets = ["commands", "prompt", "infoerrors", "commandsTabbtn", "promptTabbtn", "infoerrorsTabbtn"]
+  static targets = ["commands", "prompt", "infoerrors", 
+                    "commandsTabbtn", "promptTabbtn", "infoerrorsTabbtn",
+                    "fatalerror"
+  ]
   static values = { current: String }
   static classes = ["hidden"]
 
   connect() {
     let [tab, btn] = this.byName("commands")
     this.paginate(tab, btn)
+    
+    this.fatalPopup(this.fatalerrorTarget)
   }
 
   switchTab(event) {
@@ -47,5 +54,12 @@ export default class extends Controller {
       "infoerrors": [this.infoerrorsTarget, this.infoerrorsTabbtnTarget]
     }
     return correspondences[name]
+  }
+
+  fatalPopup(target) {
+    let errorOccured = target.innerHTML.trim().length > 0
+    if (errorOccured) {
+      popup(target.innerHTML, "color-level-4")
+    }
   }
 }
