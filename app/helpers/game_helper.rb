@@ -23,4 +23,8 @@ module GameHelper
       b: '[b] Break combination (0, 1, 0)'
     }[cmd]
   end
+
+  def named_player(player, player_names)
+    player_names[player]
+  end
 end

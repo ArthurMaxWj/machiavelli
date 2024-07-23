@@ -7,6 +7,7 @@
 	data-display-sselected-class="spot--selected"
 	data-display-detected-class="detected"
 	data-display-spin-class="fa-spin"
+	data-display-reqerrcolor-class="color-level-2"
 	id="display"
 	data-display-decksize-value="<%= @deck.size %>"
 	
@@ -108,7 +109,7 @@
 			<a href="#" class="navigation-significant-link" data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="commandsTabbtn" data-controlpanel-name-param="commands">Commands</a>
 			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="promptTabbtn" data-controlpanel-name-param="prompt">Prompt</a>
 			<a href="#" class="navigation-significant-link"  data-action="click->controlpanel#switchTab:prevent" data-controlpanel-target="infoerrorsTabbtn" data-controlpanel-name-param="infoerrors">
-				<span class="color-level-<%= @infoerror_highest %>">Info/Errors</span>
+				<span data-display-target="tocoloronreqnotmet" class="color-level-<%= @infoerror_highest %>">Info/Errors</span>
 			</a>
 		</div>
 		<div id="cp-commands" data-controlpanel-target="commands">
@@ -117,8 +118,8 @@
 				<form action="/try-move" style="display: inline">
 				<input name="cmdname" type="hidden" value="<%= comm %>"/>
 				<input name="cmdargs" type="hidden" data-display-target="cmdargs" value=""/>
-				<input type="submit" class="expanded-command-btn" data-display-target="submit" data-cmd="<%= comm %>" value="<%= expand_command(comm) %>" />
-				<input type="submit" class="minimalistic-command-btn" data-display-target="submit" data-cmd="<%= comm %>" value="<%= comm %>" />
+				<input type="submit" class="expanded-command-btn" data-display-target="submit" data-action="click->display#checkCmdRequiremnentsMet" data-cmd="<%= comm %>" value="<%= expand_command(comm) %>" />
+				<input type="submit" class="minimalistic-command-btn" data-display-target="submit" data-cmd="<%= comm %>" data-action="click->display#checkCmdRequiremnentsMet" value="<%= comm %>" />
 				</form>
 			<% end %> <%= link_to "Other commands", other_commands_info_path, class: "infolink small-infolink" %><br /> <br />
 				Ready? <form action="/execute" style="display: inline">

@@ -12,7 +12,9 @@ export default class extends Controller {
     "cmdargs",
     "submit",
     "deckbox",
-    "spin"
+    "spin",
+    "requirementserror",
+    "tocoloronreqnotmet"
   ]
   static values = {
     tselected: Array,
@@ -20,7 +22,7 @@ export default class extends Controller {
     sselected: Array,
     decksize: Number,
   }
-  static classes = ["cselected", "sselected", "detected", "spin"]
+  static classes = ["cselected", "sselected", "detected", "spin", "reqerrcolor"]
 
   connect() {
     this.clearAll()
@@ -157,6 +159,22 @@ export default class extends Controller {
     this.resizeDeckBox(v)
   }
 
+  // shows error when clicking commands with wrong requirements
+  checkCmdRequiremnentsMet(e) {
+    let cmd = e.target.getAttribute("data-cmd")
+    let rq = this.requirementsOf(cmd)
+
+    if (!this.cmdDetect().includes(cmd)) {
+      e.preventDefault() // we dont send form as is invalid
+
+      this.requirementserrorTarget.innerHTML = (
+        `Requirements not met for comand ${cmd}:` +
+        `Requires ${rq.d} deck cards, ${rq.t} table cards, ${rq.s} table spots`
+      )
+      this.tocoloronreqnotmetTarget.classList.add(this.reqerrcolorClass)
+    }
+  }
+
   updateDetection() {
     let info =
       "[ None: Each command needs to satisfy requirements: (no. of table cards, no. of spots in  table, no. of deck cards) order of each matters ]"
@@ -194,28 +212,6 @@ export default class extends Controller {
       ":" +
       (rightSide == "" ? "_" : rightSide)
     )
-  }
-
-  updateSubmitRequiremnents() {
-    let self = this
-    this.submitTargets.forEach(function (t) {
-      let r = self.requirementsOf(t.value)
-      t.onclick = function (e) {
-        if (!self.cmdDetect().includes(t.getAttribute("data-cmd"))) {
-          e.preventDefault()
-          self.requirementserrorTarget.innerHtml =
-            "Requirements not met for comand" +
-            t.value +
-            ": Requires " +
-            r.d +
-            " deck cards, " +
-            r.t +
-            " table cards, " +
-            r.s +
-            " table spots"
-        }
-      }
-    })
   }
 
   highlightDetected(cmd) {
@@ -324,7 +320,6 @@ export default class extends Controller {
   }
 
   swapClassDcard(card, idx) {
-    console.log(idx, this.cselectedClass, this.selectionLevel(idx))
     card.classList.add(this.cselectedClass)
     card.classList.add(this.selectionLevel(idx))
   }
@@ -361,7 +356,7 @@ export default class extends Controller {
   }
 
   requirementsOf(id) {
-    this.commands().find((c) => c.identifier == id)
+    return this.commands().find((c) => c.identifier == id)
   }
 
   callCommandByLetter(letter) {

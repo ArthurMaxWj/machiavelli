@@ -37,6 +37,14 @@ module GameControllerConcerns
       end
     end
 
+    def other_player(player)
+      player == :first_player ? :second_player : :first_player
+    end
+
+    def player_names
+      { first_player: player_name(:first_player), second_player: player_name(:second_player) }
+    end
+
     def preview
       @preview_move ||= GameControllerExtraClasses::PreviewMove.new(@board, session[:preview].presence || '')
 

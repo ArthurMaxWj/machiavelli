@@ -225,3 +225,7 @@ img.card-img {
 	border-color: red;
 	color: red;
 }
+
+.comb:nth-child(even) {
+	background-color: aliceblue;
+}

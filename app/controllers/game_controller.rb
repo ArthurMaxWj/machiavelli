@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../gamelogic/machiavelli_board'
-require_relative 'concerns/game_controller_concerns/common_game_back'
-require_relative 'concerns/game_controller_concerns/process'
 require_relative '../extra_classes/game_controller_extra_classes/extra_commands'
 
 
@@ -11,6 +9,7 @@ class GameController < ApplicationController
   include GameControllerConcerns::CommonGameBack
   include GameControllerConcerns::Process
   include GameControllerConcerns::Coloring
+  include GameControllerConcerns::ReadyFront
 
   before_action :state_from_session
 
@@ -71,10 +70,7 @@ class GameController < ApplicationController
   def scoreboard
     go_home and return unless @board.data.game_status[:finished]
 
-    @player = player_name(@board.data.player)
-    @give_up = @board.data.game_status[:give_up]
-    @player_skips = @board.data.player_skips
-    @winner = player_name(@board.data.game_status[:winner])
+    ready_scoreboard
   end
 
   def give_up
@@ -106,27 +102,6 @@ class GameController < ApplicationController
 
 
   private
-
-
-  def ready_front
-    @cards_left = @board.data.drawboard.cards.present? # used for draw/skip and give up buttons
-
-    @table = front_table
-    @deck = front_deck
-
-    @cur_promt = preview.move
-    @infoerror_highest = infoerror_highest_level
-
-    ready_players
-  end
-
-  def ready_players
-    @current_player = player_name(@board.data.player)
-    @player_turn = @board.data.player
-    @player1 = player_name(:first_player)
-    @player2 = player_name(:second_player)
-    @cheater = player_name(session[:who_cheated])
-  end
 
   def front_table
     @table = preview.load_data.table.map { |comb_cards| comb_cards.map(&:representation) }
