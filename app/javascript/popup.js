@@ -4,7 +4,7 @@ export default function popup(msg, kind) {
     console.log("popup:", msg)
     Toastify({
         text: msg,
-        duration: 20000,
+        duration: 2500,
         newWindow: true,
         close: true,
         gravity: "top", 

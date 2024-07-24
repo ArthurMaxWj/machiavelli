@@ -26,6 +26,8 @@ class GameController < ApplicationController
 
   def about; end
 
+  def getting_started; end
+
   def roles; end
 
   def restart_game; end

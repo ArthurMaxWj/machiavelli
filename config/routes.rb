@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get '/helper-cmd', to: 'game#cmd'
 
   get 'about', to: 'game#about'
+  get 'getting-started', to: 'game#getting_started'
   get 'roles', to: 'game#roles'
   get 'other-commands-info', to: 'game#other_commands_info'
 
