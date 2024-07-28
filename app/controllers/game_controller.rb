@@ -7,15 +7,27 @@ require_relative '../extra_classes/game_controller_extra_classes/extra_commands'
 # web version of MachiavelliGame; conects MachiavelliBoard wit web interface
 class GameController < ApplicationController
   include GameControllerConcerns::CommonGameBack
-  include GameControllerConcerns::Process
+  include GameControllerConcerns::ProcessActions
   include GameControllerConcerns::Coloring
   include GameControllerConcerns::ReadyFront
+  include GameControllerConcerns::RemoteHandling
+  include GameControllerConcerns::ProcessRemoteActions
 
-  before_action :state_from_session
+  before_action do
+    do_save
+    remote_init
+    state_from_session
+  end
 
-  after_action { session[:preview] = preview.move }
+  after_action except: :simulate_opponent do
+    session[:preview] = preview.move
+    remote_session_data.preview = session[:preview] if remote?
+    flash[:error] = 'Invalid data: unidentified error' if remote? && !remote_save
+  end
 
   def index
+    go_wait_for_turn and return if await_turn?(session[:remote_player])
+
     if @board.data.game_status[:finished]
       redirect_to action: 'scoreboard'
       return
@@ -60,7 +72,7 @@ class GameController < ApplicationController
 
     if success
       @board.data = data
-      session[:who_cheated] = who_cheated if who_cheated
+      s(:who_cheated, who_cheated) if who_cheated
       flash[:helper_out] = helper_out if helper_out
     else
       flash[:error] = error
@@ -96,8 +108,8 @@ class GameController < ApplicationController
   end
 
   def edit_names
-    session[:fplayer] = params[:fplayer]
-    session[:splayer] = params[:splayer]
+    s(:first_player_name, params[:first_player])
+    s(:second_player_name, params[:second_player])
 
     go_home
   end
@@ -105,15 +117,8 @@ class GameController < ApplicationController
 
   private
 
-  def front_table
-    @table = preview.load_data.table.map { |comb_cards| comb_cards.map(&:representation) }
-  end
-
-  def front_deck
-    preview.load_data.now_deck.map(&:representation)
-  end
-
   def state_from_session
+    load_remote_session_data if remote?
     data = session[:game_state].present? ? GameData.from_json(session[:game_state]) : nil
     @board = MachiavelliBoard.new(data:)
   end

@@ -31,4 +31,12 @@ Rails.application.routes.draw do
   get 'other-commands-info', to: 'game#other_commands_info'
 
   get 'edit-names', to: 'game#edit_names'
+
+  get '/wait_for_turn', to: 'game#wait_for_turn'
+  get '/simulate-opponent', to: 'game#simulate_opponent'
+  get '/whose-turn', to: 'game#whose_turn'
+  get '/remote', to: 'game#remote'
+  get '/remote-exit', to: 'game#remote_exit'
+  get '/remote-connect', to: 'game#remote_connect'
+  get '/remote-create', to: 'game#remote_create'
 end

@@ -116,6 +116,8 @@ button.detected, input[type=button].detected, input[type=submit].detected {
 	top: 0;
 	left: 0;
 	padding: 10px;
+	background-color: darkgray;
+	z-index: 100;
 }
 
 #counter.counter--first-player-turn {
@@ -124,6 +126,10 @@ button.detected, input[type=button].detected, input[type=submit].detected {
 
 #counter.counter--second-player-turn {
 	background-color: deeppink;
+}
+
+#counter.counter--counter--waiting {
+	background-color: lightgray;
 }
 
 #prompt-textbox {
@@ -156,6 +162,7 @@ img.card-img {
 	position: absolute;
 	top: -30px;
 	right: 20px;
+	z-index: 150;
 }
 
 #swiftscroll .scroll-ball {

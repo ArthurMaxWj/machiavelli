@@ -30,5 +30,29 @@ module GameControllerConcerns
       @player_names = player_names
       @winner = @board.data.game_status[:winner]
     end
+
+    def ready_front_waiting
+      @table = front_table
+      @deck = front_deck
+      @other_player = player_name(@board.data.other_player)
+    end
+
+    private
+
+    def front_table
+      preview.load_data.table.map { |comb_cards| comb_cards.map(&:representation) }
+    end
+
+    def front_deck
+      preview.load_data.now_deck.map(&:representation)
+    end
+
+    def data_table
+      @board.data.table.map { |comb_cards| comb_cards.map(&:representation) }
+    end
+
+    def data_deck
+      @board.data.now_deck.map(&:representation)
+    end
   end
 end

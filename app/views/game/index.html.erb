@@ -9,7 +9,6 @@
 	data-display-spin-class="fa-spin"
 	data-display-reqerrcolor-class="color-level-2"
 	id="display"
-	data-display-decksize-value="<%= @deck.size %>"
 	
 	data-action="keydown.n->display#nCalled keydown.m->display#mCalled keydown.p->display#pCalled keydown.b->display#bCalled"
 	tabindex="0"
@@ -32,8 +31,8 @@
 	</div>
 
 	<h3 class="title-with-bar"><%= @current_player %></b>'s deck:</h3>
-	<div id="deck">
-		<div id="deck-box" data-display-target="deckbox"> <!-- for blocking y-scroll -->
+	<div id="deck" 	data-controller="decksizing" data-decksizing-decksize-value="<%= @deck.size %>">
+		<div id="deck-box" data-decksizing-target="deckbox"> <!-- for blocking y-scroll -->
 		<% @deck.each_with_index do |card, card_idx| %>
 				<div 
 					data-display-target="dcard"

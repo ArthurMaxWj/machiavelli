@@ -1,0 +1,52 @@
+<%= render 'top' %>
+
+<%= turbo_frame_tag "turbomain" do %>
+<div id="display">
+<div id="counter" class="counter--waiting" data-controller="turnlistener" data-turnlistener-ourplayer-value="<%= @other_player %>">
+    <span id="counter-longer">Waiting for opponents move</span>...
+</div>
+
+	<h3 class="title-with-bar"><%= @other_player %></b>'s deck:</h3>
+	<div id="deck" 	data-controller="decksizing" data-decksizing-decksize-value="<%= @deck.size %>">
+		<div id="deck-box" data-decksizing-target="deckbox"> <!-- for blocking y-scroll -->
+		<% @deck.each_with_index do |card, card_idx| %>
+			<div class="card">
+				<img class="card-img" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+			</div>
+		<% end %>
+		</div>
+	</div>
+
+	<h3 class="title-with-bar">Table (all combinations):</h3>
+	<div  id="table">
+		<% @table.each_with_index do |comb, comb_idx| %>
+			<div class="comb">
+				<% comb.each_with_index do |card, card_idx| %>
+					<div class="spot">
+						&bull;
+					</div>
+				
+					<div class="card">
+						<img class="card-img" src="<%= card_path(card) %>" alt="<%= card_name(card)%>"/>
+					</div>
+				<% end %>		
+
+				<!-- we add one after all cards -->
+				<span class="spot">
+						&bull;
+				</span>
+				
+			</div>
+		<% end %>
+
+		<span class="explanation-info">
+			<%= @table.empty? ? "No combinations yet. Use command 'n/new_combination' to add combiantions. If no cards can form valid combiantion use 'draw'." : "" %>
+		</span>
+	</div>
+	 <% if @simulation_enabled %>
+    <div id="controlpanel">
+      <a href="/simulate-opponent" class="navigation-significant-link">Move in place of your opponent</a>
+    </div>
+    <% end %>
+</div>
+<% end %>

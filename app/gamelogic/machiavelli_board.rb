@@ -20,7 +20,7 @@ class MachiavelliBoard
 
   def initialize(data: nil, user_interface: nil)
     init_data
-    if !data.nil?
+    if !data.nil? && data != ''
       self.data = data
     else
       distribute_card

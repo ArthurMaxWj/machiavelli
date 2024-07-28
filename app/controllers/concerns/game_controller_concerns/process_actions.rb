@@ -2,7 +2,7 @@
 
 module GameControllerConcerns
   # adds fucntionality responsible for operations on @board (MachiavelliBoard) for GameController
-  module Process
+  module ProcessActions
     extend ActiveSupport::Concern
 
     included do
@@ -16,12 +16,12 @@ module GameControllerConcerns
       if prompt.strip == ''
         f(:error, 'No moves yet')
       else
-        @board.try_move(prompt) => {try_mode_err_covered:, success:}
-        proceed = success && !try_mode_err_covered
-        proceed_execution(proceed, prompt)
+        execute_moves(prompt)
       end
 
-      go_home
+      # DEL go_wait_for_turn and return if remote?
+
+      remote? ? go_wait_for_turn : go_home
     end
 
     def draw_card
@@ -29,6 +29,8 @@ module GameControllerConcerns
       f(:error, error) unless ok
 
       s(:preview, '')
+      go_wait_for_turn and return if remote?
+
       go_home
     end
 
@@ -44,8 +46,10 @@ module GameControllerConcerns
       s(:game_state, '')
       s(:preview, '')
       s(:who_cheated, '')
-      s(:fplayer, 'Alex') if params[:namestoo] == 'yes'
-      s(:splayer, 'Max') if params[:namestoo] == 'yes'
+      s(:first_player, 'Alex') if params[:namestoo] == 'yes'
+      s(:second_player, 'Max') if params[:namestoo] == 'yes'
+
+      check_remote_save
 
       go_home
     end
@@ -54,7 +58,16 @@ module GameControllerConcerns
     private
 
     def save_session
+      return unless @save_data_after
+
       s(:game_state, @board.data.to_json)
+      check_remote_save
+    end
+
+    def check_remote_save
+      flash[:error] = 'Invalid data: unidentified error' and return false if remote? && !remote_save
+
+      true
     end
 
     def proceed_execution(proceed, prompt)
@@ -63,6 +76,12 @@ module GameControllerConcerns
       @board.make_move(prompt) => {ok:, error:}
       f(:error, error) unless ok
       preview.move = '' if ok
+    end
+
+    def execute_moves(prompt)
+      @board.try_move(prompt) => {try_mode_err_covered:, success:}
+      proceed = success && !try_mode_err_covered
+      proceed_execution(proceed, prompt)
     end
   end
 end

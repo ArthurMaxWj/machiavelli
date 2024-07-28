@@ -12,7 +12,6 @@ export default class extends Controller {
     "detected",
     "cmdargs",
     "submit",
-    "deckbox",
     "spin",
     "requirementserror",
     "tocoloronreqnotmet"
@@ -20,24 +19,14 @@ export default class extends Controller {
   static values = {
     tselected: Array,
     dselected: Array,
-    sselected: Array,
-    decksize: Number,
+    sselected: Array
   }
   static classes = ["cselected", "sselected", "detected", "spin", "reqerrcolor"]
 
   connect() {
     this.clearAll()
     this.updateDetection()
-    this.resizeDeckBox(this.decksizeValue)
   }
-
-  /* used to block y-scroll, makes deck look better */
-  resizeDeckBox(dsize) {
-    let cardWidth = 147
-    let boxWidth = cardWidth * dsize
-    this.deckboxTarget.style.width = boxWidth + "px"
-  }
-
 
   // KEYDOWN EVENTS:
 
@@ -153,11 +142,6 @@ export default class extends Controller {
     this.tcounterTargets.forEach((t) => (t.innerHTML = v.length))
     this.updateDetection()
     this.updateCmdArgs()
-  }
-
-
-  decksizeValueChanged(v) {
-    this.resizeDeckBox(v)
   }
 
   // shows error when clicking commands with wrong requirements

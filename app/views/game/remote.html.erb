@@ -1,0 +1,27 @@
+<%= render 'top' %>
+
+<%= turbo_frame_tag "turbomain" do %>
+<% if @in_remote_session %>
+    You are connected to remote session: <%= @rname %> <br/>
+    Your login: <%= @rplayer %>
+    <form action="/remote-exit">
+        <input type="submit"  value="Exit remote mode" />
+    </form>
+<% else %>
+    Connect to session:
+    <form action="/remote-connect">
+       <label for="css">Name: <input type="text" name="rname" /></label>
+         <label for="css">Login: <input type="text" name="rplayer" /></label>
+        <input type="submit"  value="Connect to remote" />
+    </form>
+    <br/><br/>
+    Or create new session:
+    <form action="/remote-create">
+       <label>Name: <input type="text" name="rname" /></label> <br/>
+         <label>First player login: <input type="text" name="rfplayer" /></label> <br/>
+         <label>Second player login: <input type="text" name="rsplayer" /></label> <br/>
+        <input type="submit"  value="Create" />
+    </form>
+<% end %>
+
+<% end %>

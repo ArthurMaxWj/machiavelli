@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
-# require_relative '../../../extra_classes/game_controller_extra_classes/preview_move'
-
-
 module GameControllerConcerns
   # methods shared with other moduls being part fo GameController
   module CommonGameBack
     extend ActiveSupport::Concern
+
+    def do_save
+      @save_data_after = true
+    end
+
+    def dont_save
+      @save_data_after = false
+    end
 
     def go_home
       redirect_to action: 'index'
@@ -18,8 +23,20 @@ module GameControllerConcerns
       true # for chaining return
     end
 
+    def go_wait_for_turn
+      redirect_to action: 'wait_for_turn'
+      true # for chaining return
+    end
+
     def s(key, val)
+      remote_session_data.write_attribute(key, val) if remote? && RemoteSessionData.accepted_key?(key)
       session[key] = val
+    end
+
+    def sg(key)
+      return remote_session_data[key] if remote?
+
+      session[key]
     end
 
     def f(key, val)
@@ -29,9 +46,9 @@ module GameControllerConcerns
     def player_name(player)
       case player
       when :first_player
-        session[:fplayer].presence || 'Alex'
+        sg(:first_player_name).presence || 'Alex'
       when :second_player
-        session[:splayer].presence || 'Max'
+        sg(:second_player_name).presence || 'Max'
       else
         '<unknown player>'
       end
@@ -46,7 +63,7 @@ module GameControllerConcerns
     end
 
     def preview
-      @preview_move ||= GameControllerExtraClasses::PreviewMove.new(@board, session[:preview].presence || '')
+      @preview_move ||= GameControllerExtraClasses::PreviewMove.new(@board, sg(:preview).presence || '')
 
       @preview_move
     end
