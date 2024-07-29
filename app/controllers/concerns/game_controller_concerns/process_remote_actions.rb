@@ -79,13 +79,11 @@ module GameControllerConcerns
       go_home
     end
 
-  }
-
-  # OPTIMIZE Use ActionCable/WebSockets instead (also does current hosting support?)
-  # used by AJAX to signal turn change (switches control from one player to another)
-  def whose_turn
-    render json: { player_turn: @board.data.player }
-  end
+    # OPTIMIZE: Use ActionCable/WebSockets instead (also does current hosting support?)
+    # used by AJAX to signal turn change (switches control from one player to another)
+    def whose_turn
+      render json: { player_turn: @board.data.player }
+    end
 
 
     private

@@ -10,4 +10,4 @@ pin_all_from 'app/javascript/shared', under: 'shared'
 pin '@hotwired/turbo-rails', to: 'turbo.min.js'
 # Toastify is linked in 'application.html.erb'
 
-pin_all_from "app/assets/images/cards", under: "cards"
+pin_all_from 'app/assets/images/cards', under: 'cards'
