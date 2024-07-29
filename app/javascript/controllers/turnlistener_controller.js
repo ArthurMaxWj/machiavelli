@@ -17,14 +17,10 @@ export default class extends Controller {
     console.log('i am list')
     this.intervalIdValue = setInterval( () => {
         this.ajaxGetPlayerTurn()
-        console.log("json:", `'${this.responseTurnValue}'`)
         let playerTurn = JSON.parse(this.responseTurnValue)['player_turn']
-        console.log("turn:", `'${playerTurn}'`)
-
-        if (this.ourplayerValue == this.responseTurnValue) {
-          console.log("ourplayerValue:", this.ourplayerValue)
+        if (this.ourplayerValue == playerTurn) {
             this.stopListening()
-            // this.goHome()
+            this.goHome()
         }
     }, 1000)
  }
@@ -37,6 +33,7 @@ export default class extends Controller {
     window.location.href = "/"
  }
 
+ // OPTIMIZE Use ActionCable/WebSockets instead (also does current hosting support?)
  ajaxGetPlayerTurn() {
       const xhttp = new XMLHttpRequest()
       let self = this

@@ -35,6 +35,7 @@ module GameControllerConcerns
       @table = front_table
       @deck = front_deck
       @other_player = player_name(@board.data.other_player)
+      @other_player_order = @board.data.other_player
     end
 
     private
