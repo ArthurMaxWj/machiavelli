@@ -27,19 +27,21 @@ module GameControllerConcerns
     end
 
     def remote_connect
-      ok = attempt_connect(params[:rname], params[:rplayer])
+      rname = normalized(params[:rname])
+      rplayer = normalized(params[:rplayer])
+      ok = attempt_connect(rname, rplayer)
 
       if ok
-        session[:remote_name] = params[:rname]
-        session[:remote_player] = params[:rplayer]
+        session[:remote_name] = rname
+        session[:remote_player] = rplayer
       end
       go_home
     end
 
     def create_remote(name, fplayer, splayer)
-      name = name.strip
-      fplayer = fplayer.strip
-      splayer = splayer.strip
+      name = normalized(name)
+      fplayer = normalized(fplayer)
+      splayer = normalized(splayer)
 
       return false unless remote_creation_valid(name, fplayer, splayer)
 
@@ -114,6 +116,10 @@ module GameControllerConcerns
       names.all? do |str|
         str.match(/\A[a-z0-9_-]+\Z/)
       end
+    end
+
+    def normalized(name)
+      name.strip.downcase
     end
   end
 end

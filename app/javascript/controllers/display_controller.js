@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import popup from "../popup"
+import popup from "shared/popup"
+
+
 
 export default class extends Controller {
   static targets = [
@@ -153,7 +155,7 @@ export default class extends Controller {
       e.preventDefault() // we dont send form as is invalid
 
       this.requirementserrorTarget.innerHTML = (
-        `Requirements not met for comand ${cmd}:` +
+        `Requirements not met for comand ${cmd}: ` +
         `Requires ${rq.d} deck cards, ${rq.t} table cards, ${rq.s} table spots`
       )
       this.tocoloronreqnotmetTarget.classList.add(this.reqerrcolorClass)

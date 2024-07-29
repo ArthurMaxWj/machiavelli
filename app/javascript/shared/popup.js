@@ -1,4 +1,4 @@
-// Toastify is linked in 'application.html.erb'
+// Toastify is imported in 'application.html.erb' and config/importmap.rb under "shared"
 
 export default function popup(msg, kind) {
     console.log("popup:", msg)

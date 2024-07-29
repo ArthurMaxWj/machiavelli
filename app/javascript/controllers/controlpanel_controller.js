@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import popup from "../popup"
+import popup from "shared/popup"
 
 
 export default class extends Controller {
@@ -11,6 +11,7 @@ export default class extends Controller {
   static classes = ["hidden"]
 
   connect() {
+    console.log('eee?')
     let [tab, btn] = this.byName("commands")
     this.paginate(tab, btn)
     
