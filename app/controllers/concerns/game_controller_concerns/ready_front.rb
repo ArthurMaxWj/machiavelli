@@ -34,8 +34,8 @@ module GameControllerConcerns
     def ready_front_waiting
       @table = front_table
       @deck = front_deck
-      @other_player = player_name(@board.data.other_player)
-      @other_player_order = @board.data.other_player
+      @other_player = player_name(@board.data.player)
+      @other_player_order = @board.data.player
     end
 
     private

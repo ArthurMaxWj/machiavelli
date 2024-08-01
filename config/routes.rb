@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   get 'about', to: 'game#about'
   get 'getting-started', to: 'game#getting_started'
-  get 'roles', to: 'game#roles'
+  get 'rues', to: 'game#rules'
   get 'other-commands-info', to: 'game#other_commands_info'
 
   get 'edit-names', to: 'game#edit_names'

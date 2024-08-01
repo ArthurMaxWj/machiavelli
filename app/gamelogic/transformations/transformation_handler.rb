@@ -40,7 +40,7 @@ module Transformations
       @success
     end
 
-    # here u can use updated data
+    # here you can use updated data
     def after_transform(success)
       # do nothing
     end

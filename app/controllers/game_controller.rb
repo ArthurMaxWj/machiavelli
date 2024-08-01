@@ -40,7 +40,7 @@ class GameController < ApplicationController
 
   def getting_started; end
 
-  def roles; end
+  def rules; end
 
   def restart_game; end
 

@@ -45,8 +45,18 @@ module Transformations
       end
 
       @handled = true
-
+      @size_before = hdata.deep_duplicate.player_decks[hdata.player].size
       @success = work_with_move(move_str)
+      less_cards_cheack
+    end
+
+    def less_cards_cheack
+      # binding.break
+
+      if hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
+        @success = false
+        return e('You didnt get rid of any of your cards!')
+      end      
     end
 
     def work_with_move(move_str)
