@@ -53,10 +53,10 @@ module Transformations
     def less_cards_cheack
       # binding.break
 
-      if hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
-        @success = false
-        return e('You didnt get rid of any of your cards!')
-      end      
+      return unless hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
+
+      @success = false
+      e('You didnt get rid of any of your cards!')
     end
 
     def work_with_move(move_str)

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'json'
-# require 'byebug'
 require_relative 'drawboard'
 require_relative 'ui_data'
 
@@ -40,9 +39,7 @@ GameData = Struct.new(*GD_PROPERTIES) do
 
   def gen_init_data
     {
-      player_decks: players.index_with do |_p|
-                      []
-                    end,
+      player_decks: players.index_with { |_p| [] },
       player_skips: players.index_with { |_p| 0 }
     }
   end
@@ -66,6 +63,8 @@ GameData = Struct.new(*GD_PROPERTIES) do
   def switch_player
     self.player = other_player
   end
+
+  # delegate :size, to: :table
 
   delegate :size, to: :table
 

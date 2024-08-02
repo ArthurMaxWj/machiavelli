@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
+# for compatibility with Rails:
+require 'active_support'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/enumerable'
+
 require_relative 'machiavelli_board'
+require_relative 'transformations\helper_commands_transformation'
+require_relative 'transformations\cheat_commands_transformation'
 
 # interface for machiavelli board and immplementation of related logicgame
 class MachiavelliGame
   include Transformations::TransformationHandler
 
   attr_accessor :data
-
-  # def self.noww_is(noww)
-  # @@noww = noww
-  # end
-
-  # def self.noww
-  # @@noww
-  # end
 
   def self.start_new_game
     MachiavelliGame.new.start
@@ -33,11 +33,6 @@ class MachiavelliGame
 
   def game_loop
     return if @board.data.game_status[:finished]
-
-    # d = @board.data
-    # dd = GameData.from_json(@board.data.to_json)
-    # puts d.wiped == dd.wiped
-    # byebug
 
     ui.space
     ui.display_board(@board.data)

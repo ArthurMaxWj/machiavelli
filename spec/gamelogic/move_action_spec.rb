@@ -9,7 +9,6 @@ describe Action do
       let(:str) { sample_str(valid: true) }
 
       it 'returns valid Action' do
-        # byebug
         expect(Action.from(str)).to_not be_nil
       end
     end

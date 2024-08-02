@@ -140,7 +140,7 @@ class ConsoleUi
     write '>>> '
     written_flush
 
-    gets.strip
+    getin.strip
   end
 
   def sym_to_player_name(player_symbol)
@@ -178,7 +178,7 @@ class ConsoleUi
   end
 
   def getin
-    in? ? gets : nil
+    in? ? $stdin.gets : nil
   end
 
   def write(str = '')
