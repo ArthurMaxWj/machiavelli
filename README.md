@@ -1,24 +1,10 @@
-# README
+# README -- prototype
+Machiavelli card game implementation for local/single-player and remote versions.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## In progress:
+Refactoring specs (use Rubocop Rspec, use factories)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## To-do in the future (maybe):
+* use WebSockets/ActionCable instead of AJAX in Remote Sessions (check hosting requirements)
+* add frontend/controller tests with Capybara
+* maybe use MongoDB?

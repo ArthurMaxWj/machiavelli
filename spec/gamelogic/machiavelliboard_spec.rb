@@ -12,8 +12,7 @@ describe MachiavelliBoard do
     c.player_decks = c.player_decks.map { |k, _v| [k, []] }.to_h
     c.drawboard = Drawboard.fresh
     c.drawboard.order
-    # byebug
-    # byebug
+
     expect(c.wiped).to eql(GameData.fresh.wiped)
     expect(b.data.player_decks[b.data.player].size).to eql(3)
   end
@@ -30,7 +29,7 @@ describe MachiavelliBoard do
       fgd = GameData.fresh.wiped
       fgd.player_decks = altered_board.data.player_decks # because these are random
       fgd.drawboard.cards = altered_board.data.drawboard.cards # because these are affected by above
-      # byebug
+
       expect(altered_board.data.wiped).to be_eql(fgd.wiped)
     end
   end
@@ -79,7 +78,6 @@ describe MachiavelliBoard do
     end
 
     it 'reports win' do
-      # byebug
       expect(board.won?).to be true
     end
 
