@@ -7,8 +7,8 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/enumerable'
 
 require_relative 'machiavelli_board'
-require_relative 'transformations\helper_commands_transformation'
-require_relative 'transformations\cheat_commands_transformation'
+require_relative 'transformations/helper_commands_transformation'
+require_relative 'transformations/cheat_commands_transformation'
 
 # interface for machiavelli board and immplementation of related logicgame
 class MachiavelliGame
