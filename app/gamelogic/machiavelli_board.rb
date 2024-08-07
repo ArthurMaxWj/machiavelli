@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+# for compatibility with Rails:
+require 'active_support'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/enumerable'
+
 require_relative 'game_data'
 require_relative 'transformations/transformation_handler'
 require_relative 'transformations/control_commands_transformation'

@@ -2,13 +2,12 @@
 
 # spec/all_transformations_spec.rb
 require './app/gamelogic/machiavelli_board'
-
-BRE = false
-BN = [].freeze
+require './app/gamelogic/transformations/helper_commands_transformation'
+require './app/gamelogic/transformations/cheat_commands_transformation'
 
 # describes all subclasses of Transformation
 describe 'all transformations' do
-  describe ControlCommandsTransformation do
+  describe Transformations::ControlCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { Transformations::ControlCommandsTransformation.new }
 
@@ -145,7 +144,7 @@ describe 'all transformations' do
     end
   end
 
-  describe HelperCommandsTransformation do
+  describe Transformations::HelperCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { Transformations::HelperCommandsTransformation.new }
 
@@ -197,7 +196,7 @@ describe 'all transformations' do
     end
   end
 
-  describe CheatCommandsTransformation do
+  describe Transformations::CheatCommandsTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { Transformations::CheatCommandsTransformation.new }
 
@@ -344,7 +343,7 @@ describe 'all transformations' do
   end
 
 
-  describe MoveValidationTransformation do
+  describe Transformations::MoveValidationTransformation do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { Transformations::MoveValidationTransformation.new }
 
@@ -379,7 +378,7 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors).to be_eql([nil])
+        expect(errors).to be_eql([])
       end
     end
 
@@ -420,7 +419,6 @@ describe 'all transformations' do
         end
 
         it 'report proper error' do
-          BN.push('hi')
           oldd = board.data.deep_duplicate
           modify(transf, oldd, cmdd) => {handled:, success:, errors:}
           expect(handled).to be true
@@ -458,10 +456,9 @@ describe 'all transformations' do
       it 'doesnt report error' do
         old = board.data.deep_duplicate
         modify(transf, old, cmdd) => {handled:, success:, errors:}
-
-        expect(success).to be true
+        expect(success).to be false
         expect(handled).to be true
-        expect(errors).to be_eql([nil])
+        expect(errors).to be_eql(["You didnt get rid of any of your cards!"])
       end
     end
 
@@ -547,13 +544,13 @@ describe 'all transformations' do
 
         expect(success).to be true
         expect(handled).to be true
-        expect(errors).to be_eql([nil])
+        expect(errors).to be_eql([])
       end
     end
 
 
     context 'correctly used b/break_combination command' do
-      let(:cmdd) { 'b_:1-2' }
+      let(:cmdd) { 'b_:1-3' }
       before do
         comb_strs = [%w[2s 3s 4s], %w[2h 3h 4h 5h 6h 7h]]
         board.data.table = comb_strs.map do |comb|
@@ -578,9 +575,9 @@ describe 'all transformations' do
         old = board.data.deep_duplicate
         modify(transf, old, cmdd) => {handled:, success:, errors:}
 
-        expect(success).to be true
+        expect(success).to be false
         expect(handled).to be true
-        expect(errors).to be_eql([nil])
+        expect(errors).to be_eql(["You didnt get rid of any of your cards!"])
       end
     end
 

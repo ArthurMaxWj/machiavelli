@@ -8,17 +8,11 @@ module Transformations
   class MoveValidationTransformation < Transformation
     attr_reader :try_mode, :try_mode_err_covered
 
-    def initialize
-      super
-
-      @try_mode = false
-      @try_mode_err_covered = false
-    end
-
     def handle(args)
       raise ArgumentError, 'At least one argument required' if args.empty?
 
       cmdstr, @try_mode = args
+      @try_mode ||= false
       @try_mode_err_covered = false
 
       handle_move_validation(cmdstr)
@@ -41,19 +35,18 @@ module Transformations
     def handle_move_validation(move_str)
       if move_str.split(' ').empty?
         @handled = false
+        @succes = false
         return false
       end
-
+ 
       @handled = true
       @size_before = hdata.deep_duplicate.player_decks[hdata.player].size
       @success = work_with_move(move_str)
-      less_cards_cheack
+      less_cards_check
     end
 
-    def less_cards_cheack
-      # binding.break
-
-      return unless hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
+    def less_cards_check
+      return true unless hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
 
       @success = false
       e('You didnt get rid of any of your cards!')
