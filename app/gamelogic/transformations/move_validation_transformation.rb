@@ -11,7 +11,7 @@ module Transformations
     def handle(args)
       raise ArgumentError, 'At least one argument required' if args.empty?
 
-      cmdstr, @try_mode = args
+      cmdstr, @try_mode, @progress_move_optional = args
       @try_mode ||= false
       @try_mode_err_covered = false
 
@@ -48,8 +48,7 @@ module Transformations
     def less_cards_check
       return true unless hdata.player_decks[hdata.player].size >= @size_before && !@try_mode
 
-      @success = false
-      e('You didnt get rid of any of your cards!')
+      @success = @progress_move_optional ? true : e('You didnt get rid of any of your cards!')
     end
 
     def work_with_move(move_str)

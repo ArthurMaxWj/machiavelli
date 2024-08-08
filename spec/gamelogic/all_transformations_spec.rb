@@ -455,6 +455,14 @@ describe 'all transformations' do
 
       it 'doesnt report error' do
         old = board.data.deep_duplicate
+        modify(transf, old, cmdd, progress_move_optional: true) => {handled:, success:, errors:}
+        expect(success).to be true
+        expect(handled).to be true
+        expect(errors).to be_eql([])
+      end
+
+      it 'does report no progress move error' do
+        old = board.data.deep_duplicate
         modify(transf, old, cmdd) => {handled:, success:, errors:}
         expect(success).to be false
         expect(handled).to be true
@@ -642,8 +650,11 @@ describe 'all transformations' do
   end
 end
 
-def modify(transformation, dat, args)
-  transformation.process(dat.deep_duplicate, [args], console)
+def modify(transformation, dat, cmd_arg, progress_move_optional: false)
+  # for MoveValidationTransformation to turn off error for not gettign rid fo any cards
+  return transformation.process(dat.deep_duplicate, [cmd_arg, false, true], console) if progress_move_optional
+
+  transformation.process(dat.deep_duplicate, [cmd_arg], console)
 end
 
 def mod(transformation, data, args)
