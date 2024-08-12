@@ -5,38 +5,38 @@ require_relative '../../app/gamelogic/action'
 
 describe Action do
   describe '::from' do
-    context 'given correct string' do
+    context 'with correct string' do
       let(:str) { sample_str(valid: true) }
 
       it 'returns valid Action' do
-        expect(Action.from(str)).to_not be_nil
+        expect(described_class.from(str)).not_to be_nil
       end
     end
 
-    context 'given correct complex string' do
+    context 'with correct complex string' do
       let(:str) { 'n.-0,1-2,5-3:_' }
 
 
       it 'returns valid Action' do
-        expect(Action.from(str)).to_not be_nil
+        expect(described_class.from(str)).not_to be_nil
       end
 
       it 'has proper properties' do
-        a = Action.from(str)
+        a = described_class.from(str)
 
         # expect(a.name).to eql(:new_combination)
         # expect(a.origin).to eql([[0, 0], [1, 2], [5, 3]])
         # expect(a.destination).to eql([0, 0])
-        act = Action.new(:new_combination, [[0, 0], [1, 2], [5, 3]], [0, 0])
+        act = described_class.new(:new_combination, [[0, 0], [1, 2], [5, 3]], [0, 0])
         expect(a).to eql(act)
       end
     end
 
-    context 'given NOT correct string' do
+    context 'with NOT correct string' do
       let(:strs) { 20.times.map { sample_str(valid: false) } }
 
       it 'returns valid Action' do
-        expect(strs.map { |s| Action.from(s) }.all?(&:nil?)).to be true
+        expect(strs.map { |s| described_class.from(s) }.all?(&:nil?)).to be true
       end
     end
   end

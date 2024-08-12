@@ -4,17 +4,25 @@
 require_relative '../../app/gamelogic/machiavelli_board'
 
 describe MachiavelliBoard do
-  let(:board) { MachiavelliBoard.new }
+  let(:board) { described_class.new }
 
-  it 'initializes' do
-    b = MachiavelliBoard.new
-    c = b.data.deep_duplicate
-    c.player_decks = c.player_decks.map { |k, _v| [k, []] }.to_h
-    c.drawboard = Drawboard.fresh
-    c.drawboard.order
+  describe '#initialize' do
+    let(:b) { described_class.new }
+    let(:c) do
+      c = b.data.deep_duplicate
+      c.player_decks = c.player_decks.map { |k, _v| [k, []] }.to_h
+      c.drawboard = Drawboard.fresh
+      c.drawboard.order
+      c
+    end
 
-    expect(c.wiped).to eql(GameData.fresh.wiped)
-    expect(b.data.player_decks[b.data.player].size).to eql(3)
+    it 'creates fresh data instance' do
+      expect(c.wiped).to eql(GameData.fresh.wiped)
+    end
+
+    it 'prepares cards' do
+      expect(b.data.player_decks[b.data.player].size).to be(3)
+    end
   end
 
   describe '#reset_game' do
@@ -23,6 +31,7 @@ describe MachiavelliBoard do
       board.data.game_status = { finished: true, give_up: true, winner: board.data.player }
       board
     end
+
     before { altered_board.reset_game }
 
     it 'affects data' do
@@ -30,12 +39,12 @@ describe MachiavelliBoard do
       fgd.player_decks = altered_board.data.player_decks # because these are random
       fgd.drawboard.cards = altered_board.data.drawboard.cards # because these are affected by above
 
-      expect(altered_board.data.wiped).to be_eql(fgd.wiped)
+      expect(altered_board.data.wiped).to eql(fgd.wiped)
     end
   end
 
   describe '#make_move' do
-    context 'when correct string passed ' do
+    context 'with string passed' do
       let(:good_str) { 'd' }
 
       it 'does NOT report error' do
@@ -48,25 +57,30 @@ describe MachiavelliBoard do
         old = board.data.deep_duplicate
         board.make_move(good_str)
 
-        expect(old.wiped).to_not be_eql(board.data.wiped)
+        expect(old.wiped).not_to eql(board.data.wiped)
       end
     end
 
-    context 'when incorrect string passed' do
+    context 'with NOT correct string passed' do
       let(:bad_str) { 'wrong' }
+
+      it 'is not ok' do
+        board.make_move(bad_str) => {ok:, error:}
+
+        expect(ok).to be false
+      end
 
       it 'reports error' do
         board.make_move(bad_str) => {ok:, error:}
 
-        expect(ok).to be false
-        expect(error).to be_eql("Incorrect action: 'wrong'")
+        expect(error).to eql("Incorrect action: 'wrong'")
       end
 
       it 'does NOT affect data' do
         old = board.data.deep_duplicate
         board.make_move(bad_str)
 
-        expect(old.wiped).to be_eql(board.data.wiped)
+        expect(old.wiped).to eql(board.data.wiped)
       end
     end
   end
@@ -109,7 +123,7 @@ describe MachiavelliBoard do
     end
   end
 
-  context 'when one player given up' do
+  context 'when one player has given up' do
     before do
       # board.data.game_status[:winner] = board.data.player
       board.data.drawboard.cards = []
@@ -120,6 +134,7 @@ describe MachiavelliBoard do
     it 'does NOT report win' do
       expect(board.won?).to be false
     end
+
     it 'reports forfeit' do
       expect(board.gave_up?).to be true
     end

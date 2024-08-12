@@ -38,7 +38,7 @@ module Transformations
         @succes = false
         return false
       end
- 
+
       @handled = true
       @size_before = hdata.deep_duplicate.player_decks[hdata.player].size
       @success = work_with_move(move_str)

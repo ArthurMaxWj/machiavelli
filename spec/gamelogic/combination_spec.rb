@@ -5,7 +5,7 @@ require_relative '../../app/gamelogic/combination'
 
 describe Combination do
   describe '#valid' do
-    context 'given iteration' do
+    context 'when is iteration' do
       context 'when valid' do
         let(:comb) { smaple_iteration(valid: true) }
 
@@ -23,7 +23,7 @@ describe Combination do
       end
     end
 
-    context 'given gradation' do
+    context 'when is gradation' do
       context 'when valid' do
         let(:comb) { smaple_gradation(valid: true) }
 

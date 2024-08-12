@@ -8,15 +8,15 @@ describe Card do
   # CLASS METHODS: -----------------------------
 
   describe '::in' do
-    context 'given correct string' do
+    context 'with correct string' do
       let(:good) { '3D' }
 
       it 'returns valid Card' do
-        expect(Card.in(good).representation).to eql(good)
+        expect(described_class.in(good).representation).to eql(good)
       end
     end
 
-    context 'given correct case insensitive strings' do
+    context 'with correct case insensitive strings' do
       let(:standard) { 'jH' }
       let(:rightdown) { 'jh' }
       let(:leftup) { 'JH' }
@@ -24,43 +24,45 @@ describe Card do
 
       it 'is correct for each case' do
         all_cases = [standard, rightdown, leftup, bothcase]
-        all_cards = all_cases.map { |c| Card.in(c) }
+        all_cards = all_cases.map { |c| described_class.in(c) }
         errors_found = all_cards.any?(&:nil?)
 
         expect(errors_found).to be false
       end
     end
 
-    context 'given NOT correct string' do
+    context 'with NOT correct string' do
       let(:bad) { 'bad string' }
+
       it 'returns nil' do
-        expect(Card.in(bad)).to eql(nil)
+        expect(described_class.in(bad)).to be_nil
       end
     end
   end
 
   describe '::of' do
-    context 'given correct params' do
+    context 'with correct params' do
       let(:good) { { diamond: 10 } }
 
       it 'returns valid Card' do
-        c = Card.of(**good)
+        c = described_class.of(**good)
         expect([c.suit, c.value]).to eql(good.to_a.first)
       end
     end
 
-    context 'given NOT correct string' do
+    context 'with NOT correct string' do
       let(:bad) { { wrong: :param, still: 'bad' } }
+
       it 'returns nil' do
-        c = Card.of(**bad)
-        expect(c).to eql(nil)
+        c = described_class.of(**bad)
+        expect(c).to be_nil
       end
     end
   end
 
   describe '::all_cards' do
     let(:real_size) { Card::SUITS.size * Card::VALUES.size }
-    let(:all_cards) { Card.all_cards }
+    let(:all_cards) { described_class.all_cards }
 
     it 'has correct size' do
       expect(all_cards.size).to eql(real_size)
@@ -101,7 +103,7 @@ describe Card do
   describe '#value'
 
   describe '#ok?' do
-    context 'given valid card' do
+    context 'with valid card' do
       let(:good) { sample_card }
 
       it 'returns true' do
@@ -109,7 +111,7 @@ describe Card do
       end
     end
 
-    context 'given NOT valid card' do
+    context 'with NOT valid card' do
       let(:bad) { bad_card }
 
 
