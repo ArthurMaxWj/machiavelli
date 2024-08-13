@@ -5,6 +5,56 @@ require './app/gamelogic/machiavelli_board'
 require './app/gamelogic/transformations/helper_commands_transformation'
 require './app/gamelogic/transformations/cheat_commands_transformation'
 
+shared_examples 'handled_successfully' do |commands|
+  let(:commands) { commands.empty? ? [cmd] : commands } # deafults to 'cmd'
+
+  it 'is successs' do
+    commands.each do |cmd|
+      modify(transf, old, "#{cmd} #{cards}") => {new_data:, handled:, success:}
+
+      expect(success).to be true
+    end
+  end
+
+  it 'is handled' do
+    commands.each do |cmd|
+      modify(transf, old, "#{cmd} #{cards}") => {new_data:, handled:, success:}
+
+      expect(handled).to be true
+    end
+  end
+end
+
+shared_examples 'handled_not_successfully' do |commands, cards|
+  let(:cmds) { commands.presence || [cmd] } # deafults to 'cmd'
+  let(:cmd_line) { cards.blank? ? cmd : "#{cmd} #{cards}" } # deafults to 'cmd'
+
+  it 'is NOT successs' do
+    cmds.each do |_cmd|
+      modify(transf, old, cmd_line) => {new_data:, handled:, success:}
+
+      expect(success).to be false
+    end
+  end
+
+  it 'is handled' do
+    cmds.each do |_cmd|
+      modify(transf, old, cmd_line) => {new_data:, handled:, success:}
+
+      expect(handled).to be true
+    end
+  end
+end
+
+shared_examples 'not_handled' do # |transf, old, commands|
+  it 'is NOT handled' do
+    modify(transf, old, cmd) => {handled:, new_data:}
+
+    expect(handled).to be false
+  end
+end
+
+
 # describes all subclasses of Transformation
 describe Transformations do
   describe Transformations::ControlCommandsTransformation do
@@ -21,11 +71,7 @@ describe Transformations do
         expect(old.wiped).to eql(new_data.deep_duplicate.wiped)
       end
 
-      it 'is NOT handled' do
-        modify(transf, old, cmd) => {handled:, new_data:}
-
-        expect(handled).to be false
-      end
+      it_behaves_like 'not_handled' # , transf, old, [cmd]
     end
 
 
@@ -133,20 +179,9 @@ describe Transformations do
         expect(old.wiped).to eql(new_data.wiped)
       end
 
-      it 'is handled' do
-        modify(transf, old, cmd) => {new_data:, handled:, success:}
-
-        expect(handled).to be true
-      end
-
-      it 'is NOT success' do
-        modify(transf, old, cmd) => {new_data:, handled:, success:}
-
-        expect(success).to be false
-      end
+      it_behaves_like 'handled_not_successfully' # , transf, old, [cmd], cards
 
       it 'reports correct error' do
-        old = board.data.deep_duplicate
         modify(transf, old, cmd) => {handled:, errors:, success:}
 
         expect(errors.first).to eql('No more cards left to draw, use s (skip)')
@@ -157,17 +192,8 @@ describe Transformations do
       let(:cmd) { 's' }
       let(:old) { board.data.deep_duplicate }
 
-      it 'is handled' do
-        modify(transf, old, cmd) => {handled:, errors:, success:}
+      it_behaves_like 'handled_not_successfully' # , transf, old, [cmd], cards
 
-        expect(handled).to be true
-      end
-
-      it 'is NOT success' do
-        modify(transf, old, cmd) => {handled:, errors:, success:}
-
-        expect(success).to be false
-      end
 
       it 'reports correct error' do
         modify(transf, old, cmd) => {handled:, errors:, success:}
@@ -181,17 +207,7 @@ describe Transformations do
       let(:cmd) { 'g' }
       let(:old) { board.data.deep_duplicate }
 
-      it 'is handled' do
-        modify(transf, old, cmd) => {handled:, errors:, success:}
-
-        expect(handled).to be true
-      end
-
-      it 'is NOT success' do
-        modify(transf, old, cmd) => {handled:, errors:, success:}
-
-        expect(success).to be false
-      end
+      it_behaves_like 'handled_not_successfully' # , transf, old, [cmd], cards
 
       it 'reports correct error' do
         modify(transf, old, cmd) => {handled:, errors:, success:}
@@ -205,8 +221,6 @@ describe Transformations do
     let(:board) { MachiavelliBoard.new(user_interface: console) }
     let(:transf) { described_class.new }
 
-
-
     context 'when wrong command given' do
       let(:cmd) { 'wrong' }
       let(:old) { board.data.deep_duplicate }
@@ -217,29 +231,14 @@ describe Transformations do
         expect(old.wiped).to eql(new_data.wiped)
       end
 
-      it 'is handled' do
-        modify(transf, old, cmd) => {handled:, new_data:}
-
-        expect(handled).to be false
-      end
+      it_behaves_like 'not_handled' # , transf, old, [cmd], cards
     end
 
     context 'when NOT correct &comb used with no args' do
       let(:cmd) { '&comb' }
       let(:old) { board.data.deep_duplicate }
 
-      it 'is hanfled' do
-        modify(transf, old, cmd) => {handled:, new_data:, success:, errors:}
-
-        expect(handled).to be true
-      end
-
-
-      it 'is NOT success' do
-        modify(transf, old, cmd) => {handled:, new_data:, success:, errors:}
-
-        expect(success).to be false
-      end
+      it_behaves_like 'handled_not_successfully' # , transf, old, [cmd], cards
 
       it 'does NOT affect data' do
         modify(transf, old, cmd) => {handled:, new_data:, success:, errors:}
@@ -308,21 +307,8 @@ describe Transformations do
         end
       end
 
-      it 'is successs' do
-        ['%cget', '%cheat.get'].each do |cmd|
-          modify(transf, old, "#{cmd} #{cards}") => {new_data:, handled:, success:}
+      it_behaves_like 'handled_successfully', ['%cget', '%cheat.get'] # , transf, old, ['%cget', '%cheat.get'], cards
 
-          expect(success).to be true
-        end
-      end
-
-      it 'is handled' do
-        ['%cget', '%cheat.get'].each do |cmd|
-          modify(transf, old, "#{cmd} #{cards}") => {new_data:, handled:, success:}
-
-          expect(handled).to be true
-        end
-      end
 
 
       it 'alters player_decks properly but not drawboard' do
@@ -557,6 +543,7 @@ describe Transformations do
     end
   end
 end
+
 
 def modify(transformation, dat, cmd_arg, progress_move_optional: false)
   # for MoveValidationTransformation to turn off error for not gettign rid fo any cards
