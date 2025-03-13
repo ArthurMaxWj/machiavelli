@@ -1,6 +1,6 @@
 # README -- prototype
 Machiavelli card game implementation for local/single-player and remote versions. 
-Hosted at: [www.machiavelli-oi6b.onrender.com](www.machiavelli-oi6b.onrender.com) (**it can take a moment to awaken**)
+Hosted at: www.machiavelli-oi6b.onrender.com (**it can take a moment to awaken the instance**)
 
 ## In progress:
 Refactoring specs (use Rubocop Rspec, use factories)
