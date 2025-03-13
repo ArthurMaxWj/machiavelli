@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/restart', to: 'game#restart'
   get '/restart-game', to: 'game#restart_game'
   get '/index', to: 'game#index'
+  get '/rules', to: 'game#rules'
   get '/try-move', to: 'game#tryv_move'
   get '/edit-prompt', to: 'game#edit_prompt'
   get '/clear-try-move', to: 'game#clear_tryv_move'
