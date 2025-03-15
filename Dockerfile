@@ -65,5 +65,5 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails db:setup
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 8080
-CMD ["./bin/rails", "server", "-p", "8080"]
+# EXPOSE 8080
+# CMD ["./bin/rails", "server", "-p", "8080"]
